@@ -15,6 +15,8 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate {
     var timer = Timer()
     @IBOutlet weak var playButton: UIButton!
 
+    @IBOutlet weak var progressIndicator: UISlider!
+    @IBOutlet weak var songDurationLabel: UILabel!
     @IBOutlet weak var currentTimeLabel: UILabel!
     @IBAction func playButtonClick(_ sender: Any) {
         if (audioPlayer?.isPlaying)! {
@@ -37,6 +39,9 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate {
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: soundURL as URL)
             audioPlayer!.delegate = self
+            songDurationLabel.text = changeTimeIntervalToDisplayableString(time: audioPlayer!.duration)
+            progressIndicator.minimumValue=0.0
+            progressIndicator.maximumValue=Float(audioPlayer!.duration)
         }
         catch{   }
         
@@ -48,8 +53,12 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate {
     }
     func updateCurrentTime(){
         let currentTime:TimeInterval=audioPlayer!.currentTime
-        var minutes = floor(currentTime/60)
-        var seconds = Int(round(currentTime - minutes * 60))
+        currentTimeLabel.text=changeTimeIntervalToDisplayableString(time: currentTime)
+        progressIndicator.setValue(Float(currentTime), animated: false)
+    }
+    func changeTimeIntervalToDisplayableString(time:TimeInterval)->String{
+        var minutes = floor(time/60)
+        var seconds = Int(round(time - minutes * 60))
         if(seconds==60){
             seconds=0
             minutes=minutes+1
@@ -68,7 +77,20 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate {
         else{
             stringSeconds="\(seconds)"
         }
-        currentTimeLabel.text="\(stringMinutes):\(stringSeconds)"
+        return "\(stringMinutes):\(stringSeconds)"
+    }
+    @IBAction func playAudioAtSliderValue(_ sender: Any) {
+        if (audioPlayer?.isPlaying)! {
+            audioPlayer!.currentTime=TimeInterval(progressIndicator.value)
+        }else if (audioPlayer!.prepareToPlay()){
+            audioPlayer!.play(atTime: TimeInterval(progressIndicator.value))
+            playButton.setImage(UIImage(named: "pauseIcon.png"), for: .normal)
+            timer.invalidate()
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateCurrentTime), userInfo: nil, repeats: true)
+            
+        }
+        
+        
     }
     
 
