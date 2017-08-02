@@ -15,6 +15,8 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate {
     var timer = Timer()
     @IBOutlet weak var playButton: UIButton!
 
+    @IBOutlet weak var playerLayoutView: UIView!
+    @IBOutlet weak var songNameLabel: UILabel!
     @IBOutlet weak var progressIndicator: UISlider!
     @IBOutlet weak var songDurationLabel: UILabel!
     @IBOutlet weak var currentTimeLabel: UILabel!
@@ -42,6 +44,10 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate {
             songDurationLabel.text = changeTimeIntervalToDisplayableString(time: audioPlayer!.duration)
             progressIndicator.minimumValue=0.0
             progressIndicator.maximumValue=Float(audioPlayer!.duration)
+            songNameLabel.text="Shape of you - Ed Shereen. Shape of you mp3"
+            songNameLabel.translatesAutoresizingMaskIntoConstraints = false
+            setupAutoLayout(label: songNameLabel)
+            startMarqueeLabelAnimation(label: songNameLabel)
         }
         catch{   }
         
@@ -79,6 +85,23 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate {
         }
         return "\(stringMinutes):\(stringSeconds)"
     }
+    func startMarqueeLabelAnimation(label:UILabel) {
+        
+        DispatchQueue.main.async(execute: {
+            
+            UILabel.animate(withDuration: 10.0, delay: 0.0, options: ([.curveEaseOut, .repeat]), animations: {() -> Void in
+                label.frame.origin.x-=200
+                
+            }, completion:  nil)
+        })
+    }
+    func setupAutoLayout(label:UILabel) {
+        let horizontalConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutAttribute.leftMargin, relatedBy: NSLayoutRelation.equal, toItem: playerLayoutView, attribute: NSLayoutAttribute.leftMargin, multiplier: 1, constant: 20)
+        let verticalConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutAttribute.topMargin, relatedBy: NSLayoutRelation.equal, toItem: playerLayoutView, attribute: NSLayoutAttribute.topMargin, multiplier: 1, constant: 110)
+        
+        self.playerLayoutView.addConstraints([horizontalConstraint, verticalConstraint])
+        
+    }
     @IBAction func playAudioAtSliderValue(_ sender: Any) {
         if (audioPlayer?.isPlaying)! {
             audioPlayer!.currentTime=TimeInterval(progressIndicator.value)
@@ -90,9 +113,7 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate {
             
         }
         
-        
-    }
-    
+    }    
 
 }
 
