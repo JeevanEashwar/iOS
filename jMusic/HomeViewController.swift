@@ -8,35 +8,28 @@
 
 import UIKit
 import AVFoundation
-class HomeViewController: UIViewController,AVAudioPlayerDelegate {
+class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionViewDataSource,UICollectionViewDelegate	 {
     
     var audioPlayer: AVAudioPlayer?
     var currentPlayTime:TimeInterval?
     var timer = Timer()
     @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var songsCollectionView: UICollectionView!
 
     @IBOutlet weak var playerLayoutView: UIView!
     @IBOutlet weak var songNameLabel: UILabel!
     @IBOutlet weak var progressIndicator: UISlider!
     @IBOutlet weak var songDurationLabel: UILabel!
     @IBOutlet weak var currentTimeLabel: UILabel!
-    @IBAction func playButtonClick(_ sender: Any) {
-        if (audioPlayer?.isPlaying)! {
-            playButton.setImage(UIImage(named: "playIcon.png"), for: .normal)
-            audioPlayer!.pause()
-            timer.invalidate()
-        } else if (audioPlayer!.prepareToPlay()){
-            audioPlayer!.play()
-            playButton.setImage(UIImage(named: "pauseIcon.png"), for: .normal)
-            timer.invalidate()
-            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateCurrentTime), userInfo: nil, repeats: true)
-        }
-    }
-    
+    // MARK: Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        songsCollectionView.dataSource=self
+        songsCollectionView.delegate=self
+        songsCollectionView.isPagingEnabled=true
+        let nib = UINib(nibName: "SongInfoCell", bundle: nil)
+        songsCollectionView.register(nib, forCellWithReuseIdentifier: "songInfoCell")
         let soundURL = NSURL(fileURLWithPath: Bundle.main.path(forResource: "ShapeOfYou", ofType: "mp3")!)
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: soundURL as URL)
@@ -102,6 +95,20 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate {
         self.playerLayoutView.addConstraints([horizontalConstraint, verticalConstraint])
         
     }
+    // MARK: CollectionView Methods
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let reuseIdentifier = "songInfoCell"
+        let cell:SongInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath as IndexPath) as! SongInfoCell
+        let image : UIImage = UIImage(named:"musicSymbolsImage")!
+        cell.songThumbnailImage.image = image
+        return cell
+        
+    }
+    // MARK: Outlet Methods
     @IBAction func playAudioAtSliderValue(_ sender: Any) {
         if (audioPlayer?.isPlaying)! {
             audioPlayer!.currentTime=TimeInterval(progressIndicator.value)
@@ -113,7 +120,20 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate {
             
         }
         
-    }    
+    }
+    @IBAction func playButtonClick(_ sender: Any) {
+        if (audioPlayer?.isPlaying)! {
+            playButton.setImage(UIImage(named: "playIcon.png"), for: .normal)
+            audioPlayer!.pause()
+            timer.invalidate()
+        } else if (audioPlayer!.prepareToPlay()){
+            audioPlayer!.play()
+            playButton.setImage(UIImage(named: "pauseIcon.png"), for: .normal)
+            timer.invalidate()
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateCurrentTime), userInfo: nil, repeats: true)
+        }
+    }
+
 
 }
 
