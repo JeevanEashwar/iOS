@@ -7,16 +7,68 @@
 //
 
 import UIKit
-
+import GoogleSignIn
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        // Initialize sign-in
+        GIDSignIn.sharedInstance().delegate = self
+        GIDSignIn.sharedInstance().shouldFetchBasicProfile=true
         return true
+    }
+    func application(_ application: UIApplication,
+                     open url: URL,
+                     options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool{
+        return GIDSignIn.sharedInstance().handle(url as URL!,
+                                                 sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String!,
+                                                 annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+    }
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if (error == nil) {
+            // Perform any operations on signed in user here.
+            // user.userID & user.authentication.idToken are For client-side use only!
+            // Safe to send to the server
+            print("\(user.profile.givenName) is signed in")
+            if let wd = UIApplication.shared.delegate?.window {
+                var vc = wd!.rootViewController
+                if(vc is UITabBarController){
+                    vc = (vc as! UITabBarController).selectedViewController
+                }
+                if(vc is SecondViewController){
+                    //update the UI after log in success
+                    let controller = vc as! SecondViewController
+                    controller.emailId.isHidden = false
+                    controller.emailId.text = user.profile.email
+                    controller.AccountName.text = user.profile.name
+                    if user.profile.hasImage{
+                        let picUrl = user.profile.imageURL(withDimension: UInt(controller.profilePic.frame.size.height))
+                        
+                        DispatchQueue.global().async {
+                            let data = try? Data(contentsOf: picUrl!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
+                            DispatchQueue.main.async {
+                                controller.profilePic.image = UIImage(data: data!)
+                            }
+                        }
+                        
+                    }
+                    controller.signInButton.isHidden = true
+                    controller.signOutButton.isHidden = false
+                }
+            }
+            
+        } else {
+            print("\(error.localizedDescription)")
+        }
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        // Perform any operations when the user disconnects from app here.
+        // ...
+
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

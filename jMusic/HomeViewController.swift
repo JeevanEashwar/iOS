@@ -175,7 +175,7 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let reuseIdentifier = "songInfoCell"
         let cell:SongInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath as IndexPath) as! SongInfoCell
-        let image : UIImage = UIImage(named:"musicSymbolsImage")!
+        let songImage : UIImage = UIImage(named:"musicSymbolsImage")!
         cell.songThumbnailImage.image = songImage
         return cell
         

@@ -10,12 +10,18 @@
 		097113291F2307CD00EB4D86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097113281F2307CD00EB4D86 /* AppDelegate.swift */; };
 		0971132B1F2307CD00EB4D86 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0971132A1F2307CD00EB4D86 /* HomeViewController.swift */; };
 		0971132D1F2307CD00EB4D86 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0971132C1F2307CD00EB4D86 /* SecondViewController.swift */; };
-		097113301F2307CD00EB4D86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0971132E1F2307CD00EB4D86 /* Main.storyboard */; };
 		097113321F2307CD00EB4D86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 097113311F2307CD00EB4D86 /* Assets.xcassets */; };
 		097113351F2307CD00EB4D86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 097113331F2307CD00EB4D86 /* LaunchScreen.storyboard */; };
-		09DD2F1E1F230D0E00654767 /* ShapeOfYou.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 09DD2F1D1F230D0E00654767 /* ShapeOfYou.mp3 */; };
 		09DD2F241F230F7500654767 /* playIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 09DD2F231F230F7500654767 /* playIcon.png */; };
 		09DD2F261F23101C00654767 /* pauseIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 09DD2F251F23101C00654767 /* pauseIcon.png */; };
+		2AD57D2C1FC7F4E70086C25C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D2B1FC7F4E70086C25C /* Main.storyboard */; };
+		2AD57D2E1FC7F6E10086C25C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D2D1FC7F6E10086C25C /* GoogleService-Info.plist */; };
+		2AD57D341FC805BD0086C25C /* SongInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD57D321FC805BD0086C25C /* SongInfoCell.swift */; };
+		2AD57D351FC805BD0086C25C /* SongInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D331FC805BD0086C25C /* SongInfoCell.xib */; };
+		2AD57D371FC81B5C0086C25C /* ShapeOfYou.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D361FC81B5C0086C25C /* ShapeOfYou.mp3 */; };
+		2AD57D391FC81F810086C25C /* musicSymbolsImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D381FC81F810086C25C /* musicSymbolsImage.png */; };
+		2AD57D3B1FC82D960086C25C /* Profile_avatar_placeholder_large.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D3A1FC82D960086C25C /* Profile_avatar_placeholder_large.png */; };
+		E9BCFF91C100A8F5D18A3011 /* Pods_jMusic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B89364E2261E322A8DFA396A /* Pods_jMusic.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,13 +29,22 @@
 		097113281F2307CD00EB4D86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0971132A1F2307CD00EB4D86 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		0971132C1F2307CD00EB4D86 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
-		0971132F1F2307CD00EB4D86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		097113311F2307CD00EB4D86 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		097113341F2307CD00EB4D86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		097113361F2307CD00EB4D86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		09DD2F1D1F230D0E00654767 /* ShapeOfYou.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = ShapeOfYou.mp3; path = ../ShapeOfYou.mp3; sourceTree = "<group>"; };
 		09DD2F231F230F7500654767 /* playIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playIcon.png; sourceTree = "<group>"; };
 		09DD2F251F23101C00654767 /* pauseIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pauseIcon.png; sourceTree = "<group>"; };
+		1EECD0F2B6C87D0F05362FA8 /* Pods-jMusic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-jMusic.debug.xcconfig"; path = "Pods/Target Support Files/Pods-jMusic/Pods-jMusic.debug.xcconfig"; sourceTree = "<group>"; };
+		2AD57D2B1FC7F4E70086C25C /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		2AD57D2D1FC7F6E10086C25C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2AD57D2F1FC7F7A20086C25C /* jMusic-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "jMusic-Bridging-Header.h"; sourceTree = "<group>"; };
+		2AD57D321FC805BD0086C25C /* SongInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongInfoCell.swift; sourceTree = "<group>"; };
+		2AD57D331FC805BD0086C25C /* SongInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SongInfoCell.xib; sourceTree = "<group>"; };
+		2AD57D361FC81B5C0086C25C /* ShapeOfYou.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ShapeOfYou.mp3; sourceTree = "<group>"; };
+		2AD57D381FC81F810086C25C /* musicSymbolsImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = musicSymbolsImage.png; sourceTree = "<group>"; };
+		2AD57D3A1FC82D960086C25C /* Profile_avatar_placeholder_large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Profile_avatar_placeholder_large.png; sourceTree = "<group>"; };
+		87C7AEE72F31443248D7AFAE /* Pods-jMusic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-jMusic.release.xcconfig"; path = "Pods/Target Support Files/Pods-jMusic/Pods-jMusic.release.xcconfig"; sourceTree = "<group>"; };
+		B89364E2261E322A8DFA396A /* Pods_jMusic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_jMusic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9BCFF91C100A8F5D18A3011 /* Pods_jMusic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,8 +62,12 @@
 		0971131C1F2307CD00EB4D86 = {
 			isa = PBXGroup;
 			children = (
+				2AD57D2D1FC7F6E10086C25C /* GoogleService-Info.plist */,
 				097113271F2307CD00EB4D86 /* jMusic */,
 				097113261F2307CD00EB4D86 /* Products */,
+				2AD57D2F1FC7F7A20086C25C /* jMusic-Bridging-Header.h */,
+				BC05CB9373A0D142DC5F50DE /* Pods */,
+				89CDB60F84113E4F529261DC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,10 +87,12 @@
 				097113281F2307CD00EB4D86 /* AppDelegate.swift */,
 				0971132A1F2307CD00EB4D86 /* HomeViewController.swift */,
 				0971132C1F2307CD00EB4D86 /* SecondViewController.swift */,
-				0971132E1F2307CD00EB4D86 /* Main.storyboard */,
+				2AD57D2B1FC7F4E70086C25C /* Main.storyboard */,
 				097113311F2307CD00EB4D86 /* Assets.xcassets */,
 				097113331F2307CD00EB4D86 /* LaunchScreen.storyboard */,
 				097113361F2307CD00EB4D86 /* Info.plist */,
+				2AD57D321FC805BD0086C25C /* SongInfoCell.swift */,
+				2AD57D331FC805BD0086C25C /* SongInfoCell.xib */,
 			);
 			path = jMusic;
 			sourceTree = "<group>";
@@ -78,7 +100,7 @@
 		09DD2F1F1F230D1F00654767 /* musicFiles */ = {
 			isa = PBXGroup;
 			children = (
-				09DD2F1D1F230D0E00654767 /* ShapeOfYou.mp3 */,
+				2AD57D361FC81B5C0086C25C /* ShapeOfYou.mp3 */,
 			);
 			name = musicFiles;
 			sourceTree = "<group>";
@@ -86,10 +108,29 @@
 		09DD2F221F230EE000654767 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				2AD57D381FC81F810086C25C /* musicSymbolsImage.png */,
 				09DD2F231F230F7500654767 /* playIcon.png */,
 				09DD2F251F23101C00654767 /* pauseIcon.png */,
+				2AD57D3A1FC82D960086C25C /* Profile_avatar_placeholder_large.png */,
 			);
 			name = images;
+			sourceTree = "<group>";
+		};
+		89CDB60F84113E4F529261DC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B89364E2261E322A8DFA396A /* Pods_jMusic.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BC05CB9373A0D142DC5F50DE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1EECD0F2B6C87D0F05362FA8 /* Pods-jMusic.debug.xcconfig */,
+				87C7AEE72F31443248D7AFAE /* Pods-jMusic.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -99,9 +140,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 097113391F2307CD00EB4D86 /* Build configuration list for PBXNativeTarget "jMusic" */;
 			buildPhases = (
+				4335546E350061DCE1563C8A /* [CP] Check Pods Manifest.lock */,
 				097113211F2307CD00EB4D86 /* Sources */,
 				097113221F2307CD00EB4D86 /* Frameworks */,
 				097113231F2307CD00EB4D86 /* Resources */,
+				195E753DA8C30F8AA6144C6F /* [CP] Embed Pods Frameworks */,
+				74F456A0E4C779D040E26C1D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -124,6 +168,7 @@
 				TargetAttributes = {
 					097113241F2307CD00EB4D86 = {
 						CreatedOnToolsVersion = 8.1;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -154,19 +199,85 @@
 				09DD2F241F230F7500654767 /* playIcon.png in Resources */,
 				097113351F2307CD00EB4D86 /* LaunchScreen.storyboard in Resources */,
 				097113321F2307CD00EB4D86 /* Assets.xcassets in Resources */,
-				097113301F2307CD00EB4D86 /* Main.storyboard in Resources */,
-				09DD2F1E1F230D0E00654767 /* ShapeOfYou.mp3 in Resources */,
+				2AD57D2C1FC7F4E70086C25C /* Main.storyboard in Resources */,
+				2AD57D351FC805BD0086C25C /* SongInfoCell.xib in Resources */,
+				2AD57D391FC81F810086C25C /* musicSymbolsImage.png in Resources */,
+				2AD57D3B1FC82D960086C25C /* Profile_avatar_placeholder_large.png in Resources */,
 				09DD2F261F23101C00654767 /* pauseIcon.png in Resources */,
+				2AD57D2E1FC7F6E10086C25C /* GoogleService-Info.plist in Resources */,
+				2AD57D371FC81B5C0086C25C /* ShapeOfYou.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		195E753DA8C30F8AA6144C6F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-jMusic/Pods-jMusic-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-jMusic/Pods-jMusic-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4335546E350061DCE1563C8A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-jMusic-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		74F456A0E4C779D040E26C1D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-jMusic/Pods-jMusic-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-jMusic/Pods-jMusic-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		097113211F2307CD00EB4D86 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2AD57D341FC805BD0086C25C /* SongInfoCell.swift in Sources */,
 				0971132D1F2307CD00EB4D86 /* SecondViewController.swift in Sources */,
 				097113291F2307CD00EB4D86 /* AppDelegate.swift in Sources */,
 				0971132B1F2307CD00EB4D86 /* HomeViewController.swift in Sources */,
@@ -176,14 +287,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		0971132E1F2307CD00EB4D86 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0971132F1F2307CD00EB4D86 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		097113331F2307CD00EB4D86 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -288,24 +391,33 @@
 		};
 		0971133A1F2307CD00EB4D86 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1EECD0F2B6C87D0F05362FA8 /* Pods-jMusic.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = jMusic/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.personal.jMusic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "jMusic-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		0971133B1F2307CD00EB4D86 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 87C7AEE72F31443248D7AFAE /* Pods-jMusic.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = jMusic/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.personal.jMusic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "jMusic-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

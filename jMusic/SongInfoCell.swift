@@ -9,7 +9,7 @@
 import UIKit
 
 class SongInfoCell: UICollectionViewCell {
-
+    
     @IBOutlet weak var songCellPlayButton: UIButton!
     @IBOutlet weak var songThumbnailImage: UIImageView!
     override func awakeFromNib() {
@@ -19,5 +19,5 @@ class SongInfoCell: UICollectionViewCell {
         self.songThumbnailImage.layer.cornerRadius = self.songThumbnailImage.frame.width/2.0
         self.songThumbnailImage.clipsToBounds = true
     }
-
+    
 }
