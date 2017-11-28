@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G1036" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--First-->
+        <!--Home-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
                 <viewController id="9pv-A4-QxB" customClass="HomeViewController" customModule="jMusic" customModuleProvider="target" sceneMemberID="viewController">
@@ -103,7 +103,7 @@
                             <constraint firstItem="nrF-bO-zXj" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="zFL-u1-5aG"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Home" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="artistLabel" destination="8SA-Iy-oDR" id="brw-1Z-hcS"/>
                         <outlet property="currentTimeLabel" destination="0Gv-lB-q8c" id="9wF-U2-D2c"/>
@@ -119,7 +119,7 @@
             </objects>
             <point key="canvasLocation" x="749.60000000000002" y="-320.68965517241384"/>
         </scene>
-        <!--Second-->
+        <!--Account-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
                 <viewController id="8rJ-Kc-sve" customClass="SecondViewController" customModule="jMusic" customModuleProvider="target" sceneMemberID="viewController">
@@ -169,6 +169,25 @@
                                     <action selector="didTapSignOutWithSender:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="2ft-2h-ZSy"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="App Theme" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="myW-dm-WeD">
+                                <rect key="frame" x="16" y="468" width="155" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xoh-f6-cRY">
+                                <rect key="frame" x="208" y="469" width="121" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Default"/>
+                                    <segment title="Dark"/>
+                                </segments>
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="AppThemeStyleValueChanged:" destination="8rJ-Kc-sve" eventType="valueChanged" id="x0j-DU-GCN"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -182,9 +201,13 @@
                             <constraint firstItem="k39-Fe-Qe7" firstAttribute="top" secondItem="uIi-KH-TUm" secondAttribute="bottom" constant="8" id="zsy-cZ-FhC"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Second" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="Account" id="cPa-gy-q4n">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
+                    </tabBarItem>
                     <connections>
                         <outlet property="AccountName" destination="uIi-KH-TUm" id="kW5-i3-Yyi"/>
+                        <outlet property="AppThemeStyle" destination="xoh-f6-cRY" id="9gd-5E-U2C"/>
+                        <outlet property="appThemeLabel" destination="myW-dm-WeD" id="6TM-Ze-0Pa"/>
                         <outlet property="emailId" destination="k39-Fe-Qe7" id="Cow-D9-VAR"/>
                         <outlet property="profilePic" destination="3TK-iP-tHB" id="kaj-Kq-awi"/>
                         <outlet property="signInButton" destination="51K-hd-i6T" id="A2N-lN-gAL"/>
@@ -217,8 +240,6 @@
     </scenes>
     <resources>
         <image name="Profile_avatar_placeholder_large.png" width="360" height="360"/>
-        <image name="first" width="30" height="30"/>
         <image name="playIcon.png" width="50" height="50"/>
-        <image name="second" width="30" height="30"/>
     </resources>
 </document>

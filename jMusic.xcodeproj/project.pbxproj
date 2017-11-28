@@ -14,6 +14,8 @@
 		097113351F2307CD00EB4D86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 097113331F2307CD00EB4D86 /* LaunchScreen.storyboard */; };
 		09DD2F241F230F7500654767 /* playIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 09DD2F231F230F7500654767 /* playIcon.png */; };
 		09DD2F261F23101C00654767 /* pauseIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 09DD2F251F23101C00654767 /* pauseIcon.png */; };
+		2AB4F8CB1FCC2FF300DF1CC5 /* dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AB4F8C91FCC2FF300DF1CC5 /* dark.png */; };
+		2AB4F8CC1FCC2FF300DF1CC5 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AB4F8CA1FCC2FF300DF1CC5 /* default.png */; };
 		2AD57D2C1FC7F4E70086C25C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D2B1FC7F4E70086C25C /* Main.storyboard */; };
 		2AD57D2E1FC7F6E10086C25C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D2D1FC7F6E10086C25C /* GoogleService-Info.plist */; };
 		2AD57D341FC805BD0086C25C /* SongInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD57D321FC805BD0086C25C /* SongInfoCell.swift */; };
@@ -35,6 +37,8 @@
 		09DD2F231F230F7500654767 /* playIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playIcon.png; sourceTree = "<group>"; };
 		09DD2F251F23101C00654767 /* pauseIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pauseIcon.png; sourceTree = "<group>"; };
 		1EECD0F2B6C87D0F05362FA8 /* Pods-jMusic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-jMusic.debug.xcconfig"; path = "Pods/Target Support Files/Pods-jMusic/Pods-jMusic.debug.xcconfig"; sourceTree = "<group>"; };
+		2AB4F8C91FCC2FF300DF1CC5 /* dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dark.png; sourceTree = "<group>"; };
+		2AB4F8CA1FCC2FF300DF1CC5 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
 		2AD57D2B1FC7F4E70086C25C /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		2AD57D2D1FC7F6E10086C25C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2AD57D2F1FC7F7A20086C25C /* jMusic-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "jMusic-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -108,6 +112,8 @@
 		09DD2F221F230EE000654767 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				2AB4F8C91FCC2FF300DF1CC5 /* dark.png */,
+				2AB4F8CA1FCC2FF300DF1CC5 /* default.png */,
 				2AD57D381FC81F810086C25C /* musicSymbolsImage.png */,
 				09DD2F231F230F7500654767 /* playIcon.png */,
 				09DD2F251F23101C00654767 /* pauseIcon.png */,
@@ -199,6 +205,7 @@
 				09DD2F241F230F7500654767 /* playIcon.png in Resources */,
 				097113351F2307CD00EB4D86 /* LaunchScreen.storyboard in Resources */,
 				097113321F2307CD00EB4D86 /* Assets.xcassets in Resources */,
+				2AB4F8CB1FCC2FF300DF1CC5 /* dark.png in Resources */,
 				2AD57D2C1FC7F4E70086C25C /* Main.storyboard in Resources */,
 				2AD57D351FC805BD0086C25C /* SongInfoCell.xib in Resources */,
 				2AD57D391FC81F810086C25C /* musicSymbolsImage.png in Resources */,
@@ -206,6 +213,7 @@
 				09DD2F261F23101C00654767 /* pauseIcon.png in Resources */,
 				2AD57D2E1FC7F6E10086C25C /* GoogleService-Info.plist in Resources */,
 				2AD57D371FC81B5C0086C25C /* ShapeOfYou.mp3 in Resources */,
+				2AB4F8CC1FCC2FF300DF1CC5 /* default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

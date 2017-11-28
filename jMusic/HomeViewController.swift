@@ -47,14 +47,17 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        updateViewTheme(themeStyle: appDelegate.ApplicationThemeStyleDefault)
+        
         songsCollectionView.dataSource=self
         songsCollectionView.delegate=self
         songsCollectionView.decelerationRate=UIScrollViewDecelerationRateFast
         let nib = UINib(nibName: "SongInfoCell", bundle: nil)
         songsCollectionView.register(nib, forCellWithReuseIdentifier: "songInfoCell")
         let soundURL = NSURL(fileURLWithPath: Bundle.main.path(forResource: "ShapeOfYou", ofType: "mp3")!)
-        let audioInfo = MPNowPlayingInfoCenter.default()
-        var nowPlayingInfo:[NSObject:AnyObject] = [:]
+        //let audioInfo = MPNowPlayingInfoCenter.default()
+        //var nowPlayingInfo:[NSObject:AnyObject] = [:]
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: soundURL as URL)
             audioPlayer!.delegate = self
@@ -242,7 +245,30 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
             timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateCurrentTime), userInfo: nil, repeats: true)
         }
     }
-    
+    func updateViewTheme(themeStyle:String){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        var vcBGColor:UIColor
+        var vcTextColor:UIColor
+        vcBGColor=appDelegate.defaultThemeBGColor
+        vcTextColor=appDelegate.defaultThemeTextColor
+        
+        if(themeStyle==appDelegate.ApplicationThemeStyleDark){
+            vcBGColor=appDelegate.darkThemeBGColor
+            vcTextColor=appDelegate.darkThemeTextColor
+        }
+        else if(themeStyle==appDelegate.ApplicationThemeStyleDefault){
+            vcBGColor=appDelegate.defaultThemeBGColor
+            vcTextColor=appDelegate.defaultThemeTextColor
+        }
+        self.artistLabel.textColor=vcTextColor
+        self.currentTimeLabel.textColor=vcTextColor
+        self.songDurationLabel.textColor=vcTextColor
+        self.songNameLabel.textColor=vcTextColor
+        
+        self.playerLayoutView.backgroundColor=vcBGColor
+        self.songsCollectionView.backgroundColor=vcBGColor
+        self.view.backgroundColor=vcBGColor
+    }
     
 }
 
