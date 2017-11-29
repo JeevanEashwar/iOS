@@ -47,9 +47,11 @@
                                         <color key="textColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e2S-V3-8iR">
-                                        <rect key="frame" x="36" y="16" width="302" height="27"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e2S-V3-8iR">
+                                        <rect key="frame" x="8" y="16" width="359" height="27"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="27" id="7G1-J9-31I"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -73,7 +75,11 @@
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <constraints>
+                                    <constraint firstItem="e2S-V3-8iR" firstAttribute="top" secondItem="mYH-EO-Vs1" secondAttribute="top" constant="16" id="0GC-Oe-5vm"/>
+                                    <constraint firstItem="e2S-V3-8iR" firstAttribute="leading" secondItem="mYH-EO-Vs1" secondAttribute="leading" constant="8" id="NGw-C8-mm7"/>
+                                    <constraint firstAttribute="trailing" secondItem="e2S-V3-8iR" secondAttribute="trailing" constant="8" id="OcD-IS-LO6"/>
                                     <constraint firstAttribute="height" constant="259" id="eQm-Xk-3US"/>
+                                    <constraint firstItem="e2S-V3-8iR" firstAttribute="centerX" secondItem="mYH-EO-Vs1" secondAttribute="centerX" id="mx7-ZD-Iek"/>
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nrF-bO-zXj">
