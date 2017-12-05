@@ -37,11 +37,12 @@ extension AVPlayer {
     }
 }
 class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionViewDataSource,UICollectionViewDelegate	 {
-    
+    var songsList=[Any]()
     var audioPlayer: AVPlayer?
     var playerItem:AVPlayerItem?
     var currentPlayTime:TimeInterval?
     var timer = Timer()
+    var imageCache : NSCache<AnyObject, UIImage> = NSCache()
     @IBOutlet weak var artistLabel: UILabel!
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var songsCollectionView: UICollectionView!
@@ -64,27 +65,34 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
         songsCollectionView.decelerationRate=UIScrollViewDecelerationRateFast
         let nib = UINib(nibName: "SongInfoCell", bundle: nil)
         songsCollectionView.register(nib, forCellWithReuseIdentifier: "songInfoCell")
-        //let soundURL = NSURL(fileURLWithPath: Bundle.main.path(forResource: "ShapeOfYou", ofType: "mp3")!)
-        //let audioInfo = MPNowPlayingInfoCenter.default()
-        //var nowPlayingInfo:[NSObject:AnyObject] = [:]
+        var jsonResponse:Any?
+        if let path = Bundle.main.path(forResource: "songs", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+                 jsonResponse = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
+                
+            } catch {
+                // handle error
+                print("Error deserializing JSON: \(error)")
+            }
+            songsList=(jsonResponse as? [Any])!
+        }
         do {
-            let url = NSURL(string: "http://s3.amazonaws.com/kargopolov/BlueCafe.mp3")
-            //let url = NSURL(string: "http://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3")
-            playerItem = AVPlayerItem(url: url! as URL)
+            let url = URL(string: "https://soundcloud.com/edsheeran/shape-of-you")
+            playerItem = AVPlayerItem(url: url!)
             audioPlayer = AVPlayer(playerItem: playerItem)
-            let currentItemDurationAsCMTime:CMTime = (audioPlayer!.currentItem?.asset.duration)!
-            
-            songDurationLabel.text = changeTimeIntervalToDisplayableString(time: currentItemDurationAsCMTime.seconds)
-            progressIndicator.minimumValue=0.0
-            progressIndicator.maximumValue=Float(currentItemDurationAsCMTime.seconds)
-            
-            /****************************/
-            
+            let currentItemDurationAsCMTime:CMTime = (audioPlayer?.currentItem?.asset.duration)!
+            if(!(currentItemDurationAsCMTime.seconds.isNaN||currentItemDurationAsCMTime.seconds.isInfinite)){
+                songDurationLabel.text = changeTimeIntervalToDisplayableString(time: currentItemDurationAsCMTime.seconds)
+                progressIndicator.minimumValue=0.0
+                progressIndicator.maximumValue=Float(currentItemDurationAsCMTime.seconds)
+                
+            }
             if let metadataList = playerItem?.asset.metadata{
                 for item in metadataList {
                     if item.commonKey != nil && item.value != nil {
                         if item.commonKey  == "title" {
-                            print(item.stringValue!)
+                            print("title:\(item.stringValue!)")
                             songNameLabel.text = item.stringValue!
                             songNameLabel.translatesAutoresizingMaskIntoConstraints = false
                             setupAutoLayout(label: songNameLabel)
@@ -93,21 +101,22 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
                             }
                         }
                         if item.commonKey   == "type" {
-                            print(item.stringValue!)
+                            print("type:\(item.stringValue!)")
                             //nowPlayingInfo[MPMediaItemPropertyGenre] = item.stringValue
                         }
                         if item.commonKey  == "albumName" {
-                            print(item.stringValue!)
+                            print("albumName:\(item.stringValue!)")
                             //nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = item.stringValue
                         }
                         if item.commonKey   == "artist" {
-                            print(item.stringValue!)
+                            print("artist:\(item.stringValue!)")
                             artistLabel.text = item.stringValue
                         }
                         if item.commonKey  == "artwork" {
                             if let image = UIImage(data: (item.value as! NSData) as Data) {
                                 //nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: image)
-                                print(image.description)
+                                print("imageDesc:\(image.description)")
+                               
                                 songImage = image
                             }
                         }
@@ -115,7 +124,7 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
                 }
                 
             }
-            
+
         }
     }
     
@@ -135,15 +144,33 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
     }
     // MARK: CollectionView Methods
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return songsList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let reuseIdentifier = "songInfoCell"
         let cell:SongInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath as IndexPath) as! SongInfoCell
-        let songImage : UIImage = UIImage(named:"musicSymbolsImage")!
-        cell.songThumbnailImage.image = songImage
-        return cell
+        cell.songThumbnailImage.image=UIImage(named: "musicSymbolsImage.png")
+        let imageUrlString = (songsList[indexPath.row] as! [String:String])["imageUrl"]
+        let url = URL(string: imageUrlString!)!
+        if let cachedVersionImage = imageCache.object(forKey: url as AnyObject) {
+            // use the cached version
+            cell.songThumbnailImage.image=cachedVersionImage
+        } else {
+            // create it from scratch then store in the cache
+            getDataFromUrl(url:url) { data, response, error in
+                guard let data = data, error == nil else { return }
+                DispatchQueue.main.async() {
+                    if let updateCell:SongInfoCell = collectionView.cellForItem(at: indexPath) as? SongInfoCell{
+                        updateCell.songThumbnailImage.image=UIImage(data: data)
+                        self.imageCache.setObject(UIImage(data:data)!, forKey: url as AnyObject)
+                    }
+                }
+        }
+        
+        }
+        
+        return cell;
         
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -199,12 +226,12 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
     // MARK: Outlet Methods
     @IBAction func playAudioAtSliderValue(_ sender: Any) {
         if audioPlayer?.rate == 0{
-            audioPlayer?.seek(to: CMTimeMakeWithSeconds(Float64(progressIndicator.value), 1))
+            audioPlayer?.seek(to: CMTimeMakeWithSeconds(Float64(progressIndicator.value), 1000))
             playButton.setImage(UIImage(named: "pauseIcon.png"), for: .normal)
             timer.invalidate()
             timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateCurrentTime), userInfo: nil, repeats: true)
         } else {
-            audioPlayer?.seek(to: CMTimeMakeWithSeconds(Float64(progressIndicator.value), 1))
+            audioPlayer?.seek(to: CMTimeMakeWithSeconds(Float64(progressIndicator.value), 1000))
         }
         
     }
@@ -251,6 +278,8 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
         let currentTime:TimeInterval=currentCMTime.seconds
         currentTimeLabel.text=changeTimeIntervalToDisplayableString(time: currentTime)
         progressIndicator.setValue(Float(currentTime), animated: false)
+        print("loadedTimeRanges:\(String(describing: audioPlayer?.currentItem?.loadedTimeRanges))")
+        print("seekableTimeRanges:\(String(describing: audioPlayer?.currentItem?.seekableTimeRanges))")
     }
     func changeTimeIntervalToDisplayableString(time:TimeInterval)->String{
         var minutes = floor(time/60)
@@ -301,6 +330,9 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
         currentTimeLabel.text=changeTimeIntervalToDisplayableString(time: kCMTimeZero.seconds)
         progressIndicator.setValue(Float(kCMTimeZero.seconds), animated: false)
     }
-    
+    func getDataFromUrl(url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            completion(data, response, error)
+            }.resume()
+    }
 }
-
