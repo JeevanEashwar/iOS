@@ -78,7 +78,7 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
             songsList=(jsonResponse as? [Any])!
         }
         do {
-            let url = URL(string: "https://soundcloud.com/edsheeran/shape-of-you")
+            let url = URL(string: "https://s3.amazonaws.com/kargopolov/BlueCafe.mp3")
             playerItem = AVPlayerItem(url: url!)
             audioPlayer = AVPlayer(playerItem: playerItem)
             let currentItemDurationAsCMTime:CMTime = (audioPlayer?.currentItem?.asset.duration)!
