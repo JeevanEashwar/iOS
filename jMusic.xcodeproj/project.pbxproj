@@ -25,6 +25,8 @@
 		2AD57D391FC81F810086C25C /* musicSymbolsImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D381FC81F810086C25C /* musicSymbolsImage.png */; };
 		2AD57D3B1FC82D960086C25C /* Profile_avatar_placeholder_large.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D3A1FC82D960086C25C /* Profile_avatar_placeholder_large.png */; };
 		84911DCB1FF39C590036C5BD /* RecordingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84911DCA1FF39C590036C5BD /* RecordingsViewController.swift */; };
+		84C1D93B1FF5138F00D47FC3 /* RecordingCustomTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1D9391FF5138F00D47FC3 /* RecordingCustomTVCell.swift */; };
+		84C1D93C1FF5138F00D47FC3 /* RecordingCustomTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84C1D93A1FF5138F00D47FC3 /* RecordingCustomTVCell.xib */; };
 		E9BCFF91C100A8F5D18A3011 /* Pods_jMusic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B89364E2261E322A8DFA396A /* Pods_jMusic.framework */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +53,8 @@
 		2AD57D381FC81F810086C25C /* musicSymbolsImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = musicSymbolsImage.png; sourceTree = "<group>"; };
 		2AD57D3A1FC82D960086C25C /* Profile_avatar_placeholder_large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Profile_avatar_placeholder_large.png; sourceTree = "<group>"; };
 		84911DCA1FF39C590036C5BD /* RecordingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingsViewController.swift; sourceTree = "<group>"; };
+		84C1D9391FF5138F00D47FC3 /* RecordingCustomTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingCustomTVCell.swift; sourceTree = "<group>"; };
+		84C1D93A1FF5138F00D47FC3 /* RecordingCustomTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecordingCustomTVCell.xib; sourceTree = "<group>"; };
 		87C7AEE72F31443248D7AFAE /* Pods-jMusic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-jMusic.release.xcconfig"; path = "Pods/Target Support Files/Pods-jMusic/Pods-jMusic.release.xcconfig"; sourceTree = "<group>"; };
 		B89364E2261E322A8DFA396A /* Pods_jMusic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_jMusic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -103,6 +107,8 @@
 				2AD57D321FC805BD0086C25C /* SongInfoCell.swift */,
 				2AD57D331FC805BD0086C25C /* SongInfoCell.xib */,
 				2A80870A1FD0024100F43CEA /* songs.json */,
+				84C1D9391FF5138F00D47FC3 /* RecordingCustomTVCell.swift */,
+				84C1D93A1FF5138F00D47FC3 /* RecordingCustomTVCell.xib */,
 			);
 			path = jMusic;
 			sourceTree = "<group>";
@@ -211,6 +217,7 @@
 			files = (
 				09DD2F241F230F7500654767 /* playIcon.png in Resources */,
 				097113351F2307CD00EB4D86 /* LaunchScreen.storyboard in Resources */,
+				84C1D93C1FF5138F00D47FC3 /* RecordingCustomTVCell.xib in Resources */,
 				097113321F2307CD00EB4D86 /* Assets.xcassets in Resources */,
 				2A80870B1FD0024100F43CEA /* songs.json in Resources */,
 				2AB4F8CB1FCC2FF300DF1CC5 /* dark.png in Resources */,
@@ -295,6 +302,7 @@
 			files = (
 				2AD57D341FC805BD0086C25C /* SongInfoCell.swift in Sources */,
 				0971132D1F2307CD00EB4D86 /* SecondViewController.swift in Sources */,
+				84C1D93B1FF5138F00D47FC3 /* RecordingCustomTVCell.swift in Sources */,
 				097113291F2307CD00EB4D86 /* AppDelegate.swift in Sources */,
 				0971132B1F2307CD00EB4D86 /* HomeViewController.swift in Sources */,
 				84911DCB1FF39C590036C5BD /* RecordingsViewController.swift in Sources */,
