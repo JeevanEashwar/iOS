@@ -43,7 +43,7 @@
                         <state key="normal" title="Button" image="play"/>
                     </button>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="26Q-wu-vxg" secondAttribute="bottom" constant="7.5" id="Fsz-Lr-mdB"/>
                     <constraint firstAttribute="trailing" secondItem="Hal-hR-opB" secondAttribute="trailing" constant="16" id="JhN-k0-zBw"/>

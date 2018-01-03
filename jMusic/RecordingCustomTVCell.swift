@@ -17,6 +17,7 @@ class RecordingCustomTVCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         slider.isUserInteractionEnabled = false
+        playButton.tintColor = UIColor.white
     }
 
 }

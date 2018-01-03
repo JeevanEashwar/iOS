@@ -77,6 +77,10 @@ class SecondViewController: UIViewController,GIDSignInUIDelegate {
                         let controller = vc as! HomeViewController
                         controller.updateViewTheme(themeStyle: selectedTitle!)
                     }
+                    else if(vc is RecordingsViewController){
+                        let controller = vc as! RecordingsViewController
+                        controller.updateViewTheme(themeStyle: selectedTitle!)
+                    }
                 }
             }
         }

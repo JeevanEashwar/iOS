@@ -10,14 +10,22 @@ import UIKit
 import AVFoundation
 class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITableViewDelegate,UITableViewDataSource,AVAudioPlayerDelegate {
     var savedRecordings=Array<Any>()
+    var filteredRecordings=Array<Any>()
     var recordingSession: AVAudioSession!
     var audioRecorder: AVAudioRecorder!
     var timer = Timer()
     var cellTimer = Timer()
     var audioPlayer:AVAudioPlayer!
     var previousPlayButtonTag:Int=0
+    var cellTextColor:UIColor!
+    var defaultTintColor:UIColor = UIColor.init(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)
+    var cellPlayButtonImage:UIImage!
+    var appThemeStyle:String!
 //    var audioEngine:AVAudioEngine!
 //    var audioFile:AVAudioFile!
+    
+    //search
+    let searchController = UISearchController(searchResultsController: nil)
     
     var currentCMTime:CMTime=CMTimeMake(0, 1)
     @IBOutlet weak var saveButton: UIButton!
@@ -26,15 +34,29 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
     @IBOutlet weak var recordingsTableView: UITableView!
     @IBOutlet weak var recordingView: UIView!
     @IBOutlet weak var recordingsInnerView: UIView!
+    @IBOutlet var liveInteractionText: UILabel!
+    @IBOutlet var seperatorView: UIView!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var addButton: UIButton!
     //MARK: - view cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        let appDelegate  = UIApplication.shared.delegate as! AppDelegate
+        appThemeStyle = appDelegate.ApplicationThemeStyleDefault
+        seperatorView.backgroundColor = appDelegate.defaultThemeBGColor
+        cellTextColor = appDelegate.defaultThemeTextColor
+        titleLabel.textColor = appDelegate.defaultThemeTextColor
+        addButton.tintColor = defaultTintColor
         recordingSession = AVAudioSession.sharedInstance()
         self.recordingsTableView.delegate=self
         self.recordingsTableView.dataSource=self
         self.recordingsTableView.register(UINib(nibName: "RecordingCustomTVCell", bundle: nil), forCellReuseIdentifier: "recordingCustomCell")
+        recordingView.layer.cornerRadius = 15
         recordingsInnerView.layer.cornerRadius = 15
         saveButton.layer.cornerRadius=8
+        if let image = UIImage(named: "play") {
+            cellPlayButtonImage = image
+        }
         self.getAudioFilesListFromDirectory()
         do {
             try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
@@ -55,6 +77,17 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
             print("failed to record!")
             
         }
+        // Setup the Search Controller
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Your Recordings"
+        //searchController.searchBar.tintColor = UIColor.white
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = searchController
+        } else {
+            // Fallback on earlier versions
+        }
+        definesPresentationContext = true
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -90,7 +123,7 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
     
     @IBAction func saveRecording(_ sender: Any) {
         
-        let alertController = UIAlertController(title: "Save your recording", message: "", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Save your audio as", message: "just give the name without any extension", preferredStyle: .alert)
         
         alertController.addAction(UIAlertAction(title: "Save", style: .default, handler: {
             alert -> Void in
@@ -122,6 +155,7 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
         }, completion: nil)
         currentCMTime=CMTimeMake(0, 1)
         self.updateCurrentTime()
+        liveInteractionText.text = "Tap to start Recording"
     }
     //MARK: - Recording Methods
     func startRecording() {
@@ -139,6 +173,7 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
             audioRecorder.delegate = self
             audioRecorder.prepareToRecord()
             audioRecorder.record()
+            liveInteractionText.text = "Recording..."
             
         } catch {
             finishRecording(success: false)
@@ -157,6 +192,7 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
             self.saveButton.alpha = 0.5
             // recording failed :(
         }
+        liveInteractionText.text = "save your audio"
     }
     //MARK: - Helpers
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
@@ -229,7 +265,15 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
             return
         }
         resetAllCellsDisplay()
-        if let image = UIImage(named: "stop") {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        var imageName:String = "stop"
+        if(appThemeStyle==appDelegate.ApplicationThemeStyleDark){
+            imageName = "stopwhite"
+        }
+        else if(appThemeStyle==appDelegate.ApplicationThemeStyleDefault){
+            imageName = "stop"
+        }
+        if let image = UIImage(named: imageName) {
             sender.setImage(image, for: .normal)
         }
         let selectedCellIndex:Int = sender.tag - 1000
@@ -248,9 +292,17 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
         }
     }
     func resetAllCellsDisplay(){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        var imageName:String = "play"
+        if(appThemeStyle==appDelegate.ApplicationThemeStyleDark){
+            imageName = "playwhite"
+        }
+        else if(appThemeStyle==appDelegate.ApplicationThemeStyleDefault){
+            imageName = "play"
+        }
         let cells = self.recordingsTableView.visibleCells as! Array<RecordingCustomTVCell>
         for cell in cells{
-            if let image = UIImage(named: "play") {
+            if let image = UIImage(named: imageName) {
                 cell.playButton.setImage(image, for: .normal)
             }
             cell.slider.value=0.0
@@ -264,6 +316,52 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
         slider.maximumValue=Float(currentItemDuration)
         slider.setValue(Float((audioPlayer?.currentTime)!), animated: false)
     }
+    //helpers for search
+    //1
+    func searchBarIsEmpty() -> Bool {
+        // Returns true if the text is empty or nil
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    //2
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        filteredRecordings = savedRecordings.filter({( recordingName : Any) -> Bool in
+            return (recordingName as! URL).path.lowercased().contains(searchText.lowercased())
+        })
+        
+        self.recordingsTableView.reloadData()
+    }
+    //3
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+    // apptheme changer
+    func updateViewTheme(themeStyle:String){
+        appThemeStyle = themeStyle
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        var vcBGColor:UIColor=appDelegate.defaultThemeBGColor
+        var vcTextColor:UIColor=appDelegate.defaultThemeTextColor
+        
+        if(themeStyle==appDelegate.ApplicationThemeStyleDark){
+            vcBGColor=appDelegate.darkThemeBGColor
+            vcTextColor=appDelegate.darkThemeTextColor
+            addButton.tintColor=appDelegate.darkThemeTextColor
+            if let image = UIImage(named: "playwhite") {
+                cellPlayButtonImage = image
+            }
+        }
+        else if(themeStyle==appDelegate.ApplicationThemeStyleDefault){
+            vcBGColor=appDelegate.defaultThemeBGColor
+            vcTextColor=appDelegate.defaultThemeTextColor
+            addButton.tintColor = defaultTintColor
+            if let image = UIImage(named: "play") {
+                cellPlayButtonImage = image
+            }
+        }
+        seperatorView.backgroundColor = vcBGColor
+        cellTextColor = vcTextColor
+        titleLabel.textColor = vcTextColor
+        recordingsTableView.reloadData()
+    }
     //MARK: - AVAudioPlayer Delegates
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         //You can stop the audio
@@ -274,6 +372,9 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
     }
     //MARK: - tableView delegates
     func numberOfSections(in tableView: UITableView) -> Int {
+        if isFiltering(){
+            return filteredRecordings.count
+        }
         return savedRecordings.count //number of sections
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -294,19 +395,28 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // 1.init cell
         let cell:RecordingCustomTVCell = tableView.dequeueReusableCell(withIdentifier: "recordingCustomCell", for: indexPath) as! RecordingCustomTVCell
-        let recordingPath:String = (savedRecordings[indexPath.section] as! URL).path
+        let recordingPath:String
+        if isFiltering(){
+            recordingPath = (filteredRecordings[indexPath.section] as! URL).path
+        }
+        else{
+            recordingPath = (savedRecordings[indexPath.section] as! URL).path
+        }
         var directory:String=getDocumentsDirectory().path
         directory.append("/")
         let recordingFileName:String=recordingPath.replacingOccurrences(of: directory, with: "", options: .literal, range: nil)
         let recordingName=recordingFileName.replacingOccurrences(of: ".m4a", with: "", options: .literal, range: nil)
-        cell.recordingName.text = recordingName
+        let nameToDisplay=recordingName.replacingOccurrences(of: "/private", with: "", options: .literal, range: nil)
+        cell.recordingName.text = nameToDisplay
         // 2.cell design
         cell.layer.cornerRadius = 10
         cell.layer.borderWidth=0.5
-        cell.layer.borderColor = UIColor.black.cgColor
+        cell.layer.borderColor = cellTextColor.cgColor
         cell.layer.masksToBounds = true
         cell.backgroundColor = UIColor.clear
+        cell.recordingName.textColor = cellTextColor
         // 3.add tags
+        cell.playButton.setImage(cellPlayButtonImage, for: .normal)
         cell.playButton.tag = 1000 + indexPath.section
         cell.slider.tag = 2000 + indexPath.section
         cell.playButton.addTarget(self, action: #selector(playClicked), for: .touchUpInside)
@@ -321,12 +431,22 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
             // handle delete (by removing the data from your array and updating the tableview)
             do {
                 let fileManager = FileManager.default
-                let filePath:String = (savedRecordings[indexPath.section] as! URL).path
+                let filePath:String
+                if isFiltering(){
+                    filePath = (filteredRecordings[indexPath.section] as! URL).path
+                }
+                else{
+                    filePath = (savedRecordings[indexPath.section] as! URL).path
+                }
                 // Check if file exists
                 if fileManager.fileExists(atPath: filePath) {
                     // Delete file
                     try fileManager.removeItem(atPath: filePath)
                     getAudioFilesListFromDirectory()
+                    //and also update deleted record from UI while filtering is ON
+                    if isFiltering(){
+                        filterContentForSearchText(searchController.searchBar.text!)
+                    }
                 } else {
                     print("File does not exist")
                 }
@@ -336,6 +456,7 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
             }
         }
     }
+
     /*
     // MARK: - Navigation
 
@@ -346,4 +467,10 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
     }
     */
 
+}
+extension RecordingsViewController: UISearchResultsUpdating {
+    // MARK: - UISearchResultsUpdating Delegate
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
 }
