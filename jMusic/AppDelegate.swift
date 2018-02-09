@@ -10,6 +10,11 @@ import UIKit
 import GoogleSignIn
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
+    enum appThemeStyles:String {
+        case ApplicationThemeStyleDark
+        case ApplicationThemeStyleDefault
+    }
+    var appTheme:appThemeStyles = .ApplicationThemeStyleDefault
     let ApplicationThemeStyleDark="Dark"
     let ApplicationThemeStyleDefault="Default"
     let darkThemeBGColor=UIColor.darkGray

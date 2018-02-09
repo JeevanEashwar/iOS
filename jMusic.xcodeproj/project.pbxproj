@@ -290,7 +290,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -429,10 +429,10 @@
 				DEVELOPMENT_TEAM = K2TN8NSB54;
 				INFOPLIST_FILE = jMusic/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.brillio.socalgasdemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brillio.ARDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "642e3f62-5a8e-48c6-850a-84b4e11322c7";
-				PROVISIONING_PROFILE_SPECIFIER = SocalDevProf;
+				PROVISIONING_PROFILE = "364dfc55-a4d9-4eb1-ad99-64e60bdec394";
+				PROVISIONING_PROFILE_SPECIFIER = ARDemo_dev_profile;
 				SWIFT_OBJC_BRIDGING_HEADER = "jMusic-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -450,10 +450,10 @@
 				DEVELOPMENT_TEAM = K2TN8NSB54;
 				INFOPLIST_FILE = jMusic/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.brillio.socalgasdemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brillio.ARDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4a2ccb66-fd10-4904-907e-ae7f6cfc07c1";
-				PROVISIONING_PROFILE_SPECIFIER = SocalGas_dist_Prov;
+				PROVISIONING_PROFILE = "711ca32b-901a-48f4-b3ca-aa550845585d";
+				PROVISIONING_PROFILE_SPECIFIER = ARDemo_Dis;
 				SWIFT_OBJC_BRIDGING_HEADER = "jMusic-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};

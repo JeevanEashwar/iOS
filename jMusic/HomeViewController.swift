@@ -29,13 +29,15 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
     @IBOutlet weak var progressIndicator: UISlider!
     @IBOutlet weak var songDurationLabel: UILabel!
     @IBOutlet weak var currentTimeLabel: UILabel!
+    
+    @IBOutlet weak var largeWhiteIndicator: UIActivityIndicatorView!
     // MARK: VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         updateViewTheme(themeStyle: appDelegate.ApplicationThemeStyleDefault)
-    
+        largeWhiteIndicator.isHidden = true // indicator at playbutton is hidden by default
         songsCollectionView.dataSource=self
         songsCollectionView.delegate=self
         //songsCollectionView.decelerationRate=UIScrollViewDecelerationRateFast
@@ -111,6 +113,21 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
     }
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
+    }
+    func setUpProgressIndicatorStyle(){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if(appDelegate.appTheme == .ApplicationThemeStyleDark){
+            let thumbImageNormal = #imageLiteral(resourceName: "lightCD") // UIImage(named: "SliderThumb-Normal")
+            progressIndicator.setThumbImage(thumbImageNormal, for: .normal)
+            progressIndicator.minimumTrackTintColor = UIColor.black
+            progressIndicator.maximumTrackTintColor = UIColor.white
+        }
+        else{
+            let thumbImageNormal = #imageLiteral(resourceName: "darkCD") // UIImage(named: "SliderThumb-Normal")
+            progressIndicator.setThumbImage(thumbImageNormal, for: .normal)
+            progressIndicator.minimumTrackTintColor = UIColor.init(red: 80.0/255.0, green: 39/255.0, blue: 132/255.0, alpha: 1.0)
+            progressIndicator.maximumTrackTintColor = UIColor.lightGray
+        }
     }
     // MARK: CollectionView Methods
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -216,6 +233,7 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
         self.playerLayoutView.backgroundColor=vcBGColor
         self.songsCollectionView.backgroundColor=vcBGColor
         self.view.backgroundColor=vcBGColor
+        setUpProgressIndicatorStyle()
     }
     func updateCurrentTime(){
         let currentCMTime:CMTime=(audioPlayer?.currentTime())!
@@ -307,6 +325,9 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
     }
     func songSelectedFromCollectionView(_ sender: UIButton){
         sender.isHidden = true
+        self.playButton.isHidden = true
+        largeWhiteIndicator.isHidden = false
+        largeWhiteIndicator.startAnimating()
         if(self.view.viewWithTag(2000+selectedSongIndex) != nil){
             self.view.viewWithTag(2000+selectedSongIndex)?.isHidden = false
         }
@@ -321,6 +342,9 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
                 self.playButton.setImage(UIImage(named: "pauseIcon.png"), for: .normal)
                 self.timer.invalidate()
                 self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateCurrentTime), userInfo: nil, repeats: true)
+                self.playButton.isHidden = false
+                self.largeWhiteIndicator.stopAnimating()
+                self.largeWhiteIndicator.isHidden = true
             }
         }
     }

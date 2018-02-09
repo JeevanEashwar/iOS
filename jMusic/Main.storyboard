@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -85,6 +85,14 @@
                                             <action selector="playButtonClick:" destination="9pv-A4-QxB" eventType="touchUpInside" id="Ms0-ga-uBE"/>
                                         </connections>
                                     </button>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="uwI-rs-5Rw">
+                                        <rect key="frame" x="162" y="130" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="DWk-hr-R83"/>
+                                            <constraint firstAttribute="width" constant="50" id="mpy-uz-zdN"/>
+                                        </constraints>
+                                        <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <constraints>
@@ -92,6 +100,7 @@
                                     <constraint firstItem="8SA-Iy-oDR" firstAttribute="top" secondItem="e2S-V3-8iR" secondAttribute="bottom" constant="8" id="6QK-jF-ZMd"/>
                                     <constraint firstItem="8SA-Iy-oDR" firstAttribute="leading" secondItem="mYH-EO-Vs1" secondAttribute="leading" constant="8" id="7GN-XA-zXb"/>
                                     <constraint firstAttribute="trailing" secondItem="ZAm-3K-PpF" secondAttribute="trailing" constant="33" id="Dzu-5L-4cn"/>
+                                    <constraint firstItem="uwI-rs-5Rw" firstAttribute="centerY" secondItem="JMz-2k-gtn" secondAttribute="centerY" id="EYj-K9-eOA"/>
                                     <constraint firstAttribute="trailing" secondItem="8SA-Iy-oDR" secondAttribute="trailing" constant="8" id="GM5-Bn-b0O"/>
                                     <constraint firstItem="e2S-V3-8iR" firstAttribute="leading" secondItem="mYH-EO-Vs1" secondAttribute="leading" constant="8" id="NGw-C8-mm7"/>
                                     <constraint firstAttribute="trailing" secondItem="e2S-V3-8iR" secondAttribute="trailing" constant="8" id="OcD-IS-LO6"/>
@@ -104,6 +113,7 @@
                                     <constraint firstAttribute="height" constant="200" id="eQm-Xk-3US"/>
                                     <constraint firstItem="ZAm-3K-PpF" firstAttribute="leading" secondItem="mYH-EO-Vs1" secondAttribute="leading" constant="32" id="ity-7U-1M9"/>
                                     <constraint firstItem="e2S-V3-8iR" firstAttribute="centerX" secondItem="mYH-EO-Vs1" secondAttribute="centerX" id="mx7-ZD-Iek"/>
+                                    <constraint firstItem="uwI-rs-5Rw" firstAttribute="centerX" secondItem="JMz-2k-gtn" secondAttribute="centerX" id="rjl-w3-7ui"/>
                                     <constraint firstItem="0Gv-lB-q8c" firstAttribute="top" secondItem="ZAm-3K-PpF" secondAttribute="bottom" constant="8" id="tki-jl-xTI"/>
                                     <constraint firstItem="8SA-Iy-oDR" firstAttribute="centerX" secondItem="mYH-EO-Vs1" secondAttribute="centerX" id="vd4-8S-XkL"/>
                                     <constraint firstItem="JMz-2k-gtn" firstAttribute="top" secondItem="ZAm-3K-PpF" secondAttribute="bottom" constant="15" id="yn8-ix-cMY"/>
@@ -136,10 +146,11 @@
                             <constraint firstItem="nrF-bO-zXj" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="zFL-u1-5aG"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Home" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="Home" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="artistLabel" destination="8SA-Iy-oDR" id="brw-1Z-hcS"/>
                         <outlet property="currentTimeLabel" destination="0Gv-lB-q8c" id="9wF-U2-D2c"/>
+                        <outlet property="largeWhiteIndicator" destination="uwI-rs-5Rw" id="LqN-lz-U3R"/>
                         <outlet property="playButton" destination="JMz-2k-gtn" id="9t2-Dk-G4s"/>
                         <outlet property="playerLayoutView" destination="mYH-EO-Vs1" id="9av-yO-EuG"/>
                         <outlet property="progressIndicator" destination="ZAm-3K-PpF" id="VPW-fa-Mra"/>
@@ -262,7 +273,7 @@
                             <constraint firstItem="k39-Fe-Qe7" firstAttribute="top" secondItem="uIi-KH-TUm" secondAttribute="bottom" constant="8" id="zsy-cZ-FhC"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Account" id="cPa-gy-q4n">
+                    <tabBarItem key="tabBarItem" title="Account" image="Account" id="cPa-gy-q4n">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <connections>
@@ -447,7 +458,7 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="Recordings" id="Gpa-zi-kdd"/>
+                    <tabBarItem key="tabBarItem" title="Recordings" image="recordingIcon" id="Gpa-zi-kdd"/>
                     <connections>
                         <outlet property="addButton" destination="iHL-Uj-hYL" id="ilj-6s-KvI"/>
                         <outlet property="liveInteractionText" destination="9J2-nw-T0d" id="WHh-CY-De9"/>
@@ -487,10 +498,13 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Account" width="25" height="25"/>
+        <image name="Home" width="25" height="25"/>
         <image name="Profile_avatar_placeholder_large.png" width="360" height="360"/>
         <image name="microphone" width="100" height="100"/>
         <image name="musicSymbolsImage.png" width="131" height="144"/>
         <image name="playIcon.png" width="50" height="50"/>
         <image name="recordingBG.jpg" width="1024" height="768"/>
+        <image name="recordingIcon" width="25" height="25"/>
     </resources>
 </document>

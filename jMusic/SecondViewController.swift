@@ -59,10 +59,12 @@ class SecondViewController: UIViewController,GIDSignInUIDelegate {
         if(selectedTitle==appDelegate.ApplicationThemeStyleDark){
             vcBGColor=appDelegate.darkThemeBGColor
             vcTextColor=appDelegate.darkThemeTextColor
+            appDelegate.appTheme = .ApplicationThemeStyleDark
         }
         else if(selectedTitle==appDelegate.ApplicationThemeStyleDefault){
             vcBGColor=appDelegate.defaultThemeBGColor
             vcTextColor=appDelegate.defaultThemeTextColor
+            appDelegate.appTheme = .ApplicationThemeStyleDefault
         }
         self.view.backgroundColor = vcBGColor
         self.emailId.textColor = vcTextColor
