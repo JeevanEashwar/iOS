@@ -50,7 +50,7 @@ class SecondViewController: UIViewController,GIDSignInUIDelegate {
 
     
     @IBAction func AppThemeStyleValueChanged(_ sender: UISegmentedControl) {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let selectedTitle=sender.titleForSegment(at: sender.selectedSegmentIndex)
         var vcBGColor:UIColor
         var vcTextColor:UIColor
@@ -74,13 +74,13 @@ class SecondViewController: UIViewController,GIDSignInUIDelegate {
         if let wd = appDelegate.window {
             let rvc = wd.rootViewController
             if(rvc is UITabBarController){
-                for vc in (rvc as? UITabBarController).viewControllers!{
+                for vc in (rvc as! UITabBarController).viewControllers!{
                     if(vc is HomeViewController){
-                        let controller = vc as? HomeViewController
+                        let controller = vc as! HomeViewController
                         controller.updateViewTheme(themeStyle: selectedTitle!)
                     }
                     else if(vc is RecordingsViewController){
-                        let controller = vc as? RecordingsViewController
+                        let controller = vc as! RecordingsViewController
                         controller.updateViewTheme(themeStyle: selectedTitle!)
                     }
                 }
