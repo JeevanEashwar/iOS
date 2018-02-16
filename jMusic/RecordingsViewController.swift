@@ -103,7 +103,7 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
     }
     @IBAction func recordButtonClicked(_ sender: Any) {
         if audioRecorder == nil || !audioRecorder.isRecording {
-            if let image = UIImage(named: "stop") {
+            if let image = UIImage(named: "stopDark") {
                 self.recordButton.setImage(image, for: .normal)
             }
             timer.invalidate()
@@ -266,12 +266,12 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
         }
         resetAllCellsDisplay()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        var imageName:String = "stop"
+        var imageName:String = "stopDark"
         if(appThemeStyle==appDelegate.ApplicationThemeStyleDark){
-            imageName = "stopwhite"
+            imageName = "stopWhite"
         }
         else if(appThemeStyle==appDelegate.ApplicationThemeStyleDefault){
-            imageName = "stop"
+            imageName = "stopDark"
         }
         if let image = UIImage(named: imageName) {
             sender.setImage(image, for: .normal)
@@ -337,6 +337,9 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
     // apptheme changer
     func updateViewTheme(themeStyle:String){
         appThemeStyle = themeStyle
+        guard addButton != nil,cellPlayButtonImage != nil else{
+            return
+        }
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         var vcBGColor:UIColor=appDelegate.defaultThemeBGColor
         var vcTextColor:UIColor=appDelegate.defaultThemeTextColor

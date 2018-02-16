@@ -12,8 +12,6 @@
 		0971132D1F2307CD00EB4D86 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0971132C1F2307CD00EB4D86 /* SecondViewController.swift */; };
 		097113321F2307CD00EB4D86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 097113311F2307CD00EB4D86 /* Assets.xcassets */; };
 		097113351F2307CD00EB4D86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 097113331F2307CD00EB4D86 /* LaunchScreen.storyboard */; };
-		09DD2F241F230F7500654767 /* playIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 09DD2F231F230F7500654767 /* playIcon.png */; };
-		09DD2F261F23101C00654767 /* pauseIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 09DD2F251F23101C00654767 /* pauseIcon.png */; };
 		2A29DEEE1FFCC647004A6D4E /* recordingBG.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2A29DEED1FFCC646004A6D4E /* recordingBG.jpg */; };
 		2A80870B1FD0024100F43CEA /* songs.json in Resources */ = {isa = PBXBuildFile; fileRef = 2A80870A1FD0024100F43CEA /* songs.json */; };
 		2AB4F8CB1FCC2FF300DF1CC5 /* dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AB4F8C91FCC2FF300DF1CC5 /* dark.png */; };
@@ -39,8 +37,6 @@
 		097113311F2307CD00EB4D86 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		097113341F2307CD00EB4D86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		097113361F2307CD00EB4D86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		09DD2F231F230F7500654767 /* playIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playIcon.png; sourceTree = "<group>"; };
-		09DD2F251F23101C00654767 /* pauseIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pauseIcon.png; sourceTree = "<group>"; };
 		1EECD0F2B6C87D0F05362FA8 /* Pods-jMusic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-jMusic.debug.xcconfig"; path = "Pods/Target Support Files/Pods-jMusic/Pods-jMusic.debug.xcconfig"; sourceTree = "<group>"; };
 		2A29DEED1FFCC646004A6D4E /* recordingBG.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = recordingBG.jpg; sourceTree = "<group>"; };
 		2A80870A1FD0024100F43CEA /* songs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = songs.json; sourceTree = "<group>"; };
@@ -129,8 +125,6 @@
 				2AB4F8C91FCC2FF300DF1CC5 /* dark.png */,
 				2AB4F8CA1FCC2FF300DF1CC5 /* default.png */,
 				2AD57D381FC81F810086C25C /* musicSymbolsImage.png */,
-				09DD2F231F230F7500654767 /* playIcon.png */,
-				09DD2F251F23101C00654767 /* pauseIcon.png */,
 				2A29DEED1FFCC646004A6D4E /* recordingBG.jpg */,
 				2AD57D3A1FC82D960086C25C /* Profile_avatar_placeholder_large.png */,
 			);
@@ -218,7 +212,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09DD2F241F230F7500654767 /* playIcon.png in Resources */,
 				097113351F2307CD00EB4D86 /* LaunchScreen.storyboard in Resources */,
 				84C1D93C1FF5138F00D47FC3 /* RecordingCustomTVCell.xib in Resources */,
 				097113321F2307CD00EB4D86 /* Assets.xcassets in Resources */,
@@ -229,7 +222,6 @@
 				2AD57D351FC805BD0086C25C /* SongInfoCell.xib in Resources */,
 				2AD57D391FC81F810086C25C /* musicSymbolsImage.png in Resources */,
 				2AD57D3B1FC82D960086C25C /* Profile_avatar_placeholder_large.png in Resources */,
-				09DD2F261F23101C00654767 /* pauseIcon.png in Resources */,
 				2AD57D2E1FC7F6E10086C25C /* GoogleService-Info.plist in Resources */,
 				2AD57D371FC81B5C0086C25C /* ShapeOfYou.mp3 in Resources */,
 				2AB4F8CC1FCC2FF300DF1CC5 /* default.png in Resources */,
