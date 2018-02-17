@@ -111,7 +111,7 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
             startRecording()
         } else {
             finishRecording(success: true)
-            if let image = UIImage(named: "microphone") {
+            if let image = UIImage(named: "recordingIcon") {
                 self.recordButton.setImage(image, for: .normal)
             }
             timer.invalidate()
