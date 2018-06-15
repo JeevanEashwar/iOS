@@ -10,6 +10,7 @@ import UIKit
 
 class SecondViewController: UIViewController,GIDSignInUIDelegate {
 
+    @IBOutlet weak var superViewBackGroundImageView: UIImageView!
     @IBOutlet var signOutButton: UIButton!
     @IBOutlet var appThemeLabel: UILabel!
     @IBOutlet var AppThemeStyle: UISegmentedControl!
@@ -19,6 +20,7 @@ class SecondViewController: UIViewController,GIDSignInUIDelegate {
     @IBOutlet var profilePic: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        addGradientToBackGround()
         profilePic.layoutIfNeeded()
         profilePic.layer.cornerRadius = profilePic.frame.height / 2.0
         profilePic.layer.masksToBounds = true
@@ -37,6 +39,28 @@ class SecondViewController: UIViewController,GIDSignInUIDelegate {
             GIDSignIn.sharedInstance().clientID = dict["CLIENT_ID"] as! String
         }
         
+    }
+    private func addGradientToBackGround(){
+        let view = UIView(frame: self.view.frame)
+        let gradient = CAGradientLayer()
+        gradient.frame = view.frame
+//        let firstColor = UIColor(red: 207/255, green: 217/255, blue: 223/255, alpha: 0.7).cgColor
+        let lastColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7).cgColor
+        let firstColor = UIColor.clear.cgColor
+        //let lastColor = UIColor.black.cgColor
+        gradient.colors = [lastColor,firstColor,lastColor,firstColor,lastColor]
+        gradient.locations = [0.0,0.3,0.5,0.8,1.0]
+        view.layer.insertSublayer(gradient, at: 0)
+        superViewBackGroundImageView.addSubview(view)
+        superViewBackGroundImageView.bringSubview(toFront: view)
+        // 1
+        let darkBlur = UIBlurEffect(style: UIBlurEffectStyle.regular)
+        // 2
+        let blurView = UIVisualEffectView(effect: darkBlur)
+        blurView.frame = view.bounds
+        blurView.alpha = 0.9
+        // 3
+        superViewBackGroundImageView.addSubview(blurView)
     }
     @IBAction func didTapSignOut(sender: AnyObject) {
         print("\(GIDSignIn.sharedInstance().currentUser.profile.givenName) signed out successfully")

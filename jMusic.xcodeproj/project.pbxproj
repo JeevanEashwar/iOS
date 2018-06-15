@@ -20,8 +20,6 @@
 		2AD57D2E1FC7F6E10086C25C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D2D1FC7F6E10086C25C /* GoogleService-Info.plist */; };
 		2AD57D341FC805BD0086C25C /* SongInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD57D321FC805BD0086C25C /* SongInfoCell.swift */; };
 		2AD57D351FC805BD0086C25C /* SongInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D331FC805BD0086C25C /* SongInfoCell.xib */; };
-		2AD57D371FC81B5C0086C25C /* ShapeOfYou.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D361FC81B5C0086C25C /* ShapeOfYou.mp3 */; };
-		2AD57D391FC81F810086C25C /* musicSymbolsImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D381FC81F810086C25C /* musicSymbolsImage.png */; };
 		2AD57D3B1FC82D960086C25C /* Profile_avatar_placeholder_large.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D3A1FC82D960086C25C /* Profile_avatar_placeholder_large.png */; };
 		84911DCB1FF39C590036C5BD /* RecordingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84911DCA1FF39C590036C5BD /* RecordingsViewController.swift */; };
 		84C1D93B1FF5138F00D47FC3 /* RecordingCustomTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1D9391FF5138F00D47FC3 /* RecordingCustomTVCell.swift */; };
@@ -47,8 +45,6 @@
 		2AD57D2F1FC7F7A20086C25C /* jMusic-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "jMusic-Bridging-Header.h"; sourceTree = "<group>"; };
 		2AD57D321FC805BD0086C25C /* SongInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongInfoCell.swift; sourceTree = "<group>"; };
 		2AD57D331FC805BD0086C25C /* SongInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SongInfoCell.xib; sourceTree = "<group>"; };
-		2AD57D361FC81B5C0086C25C /* ShapeOfYou.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ShapeOfYou.mp3; sourceTree = "<group>"; };
-		2AD57D381FC81F810086C25C /* musicSymbolsImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = musicSymbolsImage.png; sourceTree = "<group>"; };
 		2AD57D3A1FC82D960086C25C /* Profile_avatar_placeholder_large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Profile_avatar_placeholder_large.png; sourceTree = "<group>"; };
 		84911DCA1FF39C590036C5BD /* RecordingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingsViewController.swift; sourceTree = "<group>"; };
 		84C1D9391FF5138F00D47FC3 /* RecordingCustomTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingCustomTVCell.swift; sourceTree = "<group>"; };
@@ -114,7 +110,6 @@
 		09DD2F1F1F230D1F00654767 /* musicFiles */ = {
 			isa = PBXGroup;
 			children = (
-				2AD57D361FC81B5C0086C25C /* ShapeOfYou.mp3 */,
 			);
 			name = musicFiles;
 			sourceTree = "<group>";
@@ -124,7 +119,6 @@
 			children = (
 				2AB4F8C91FCC2FF300DF1CC5 /* dark.png */,
 				2AB4F8CA1FCC2FF300DF1CC5 /* default.png */,
-				2AD57D381FC81F810086C25C /* musicSymbolsImage.png */,
 				2A29DEED1FFCC646004A6D4E /* recordingBG.jpg */,
 				2AD57D3A1FC82D960086C25C /* Profile_avatar_placeholder_large.png */,
 			);
@@ -220,10 +214,8 @@
 				2AB4F8CB1FCC2FF300DF1CC5 /* dark.png in Resources */,
 				2AD57D2C1FC7F4E70086C25C /* Main.storyboard in Resources */,
 				2AD57D351FC805BD0086C25C /* SongInfoCell.xib in Resources */,
-				2AD57D391FC81F810086C25C /* musicSymbolsImage.png in Resources */,
 				2AD57D3B1FC82D960086C25C /* Profile_avatar_placeholder_large.png in Resources */,
 				2AD57D2E1FC7F6E10086C25C /* GoogleService-Info.plist in Resources */,
-				2AD57D371FC81B5C0086C25C /* ShapeOfYou.mp3 in Resources */,
 				2AB4F8CC1FCC2FF300DF1CC5 /* default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITableViewDelegate,UITableViewDataSource,AVAudioPlayerDelegate {
+    
     var savedRecordings=Array<Any>()
     var filteredRecordings=Array<Any>()
     var recordingSession: AVAudioSession!
@@ -28,6 +29,7 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
     let searchController = UISearchController(searchResultsController: nil)
     
     var currentCMTime:CMTime=CMTimeMake(0, 1)
+    @IBOutlet weak var superViewBackGroundImageView: UIImageView!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var recordingTimeLabel: UILabel!
@@ -41,6 +43,7 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
     //MARK: - view cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        addGradientToBackGround()
         let appDelegate  = UIApplication.shared.delegate as! AppDelegate
         appThemeStyle = appDelegate.ApplicationThemeStyleDefault
         seperatorView.backgroundColor = appDelegate.defaultThemeBGColor
@@ -92,6 +95,28 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    private func addGradientToBackGround(){
+        let view = UIView(frame: self.view.frame)
+        let gradient = CAGradientLayer()
+        gradient.frame = view.frame
+        //        let firstColor = UIColor(red: 207/255, green: 217/255, blue: 223/255, alpha: 0.7).cgColor
+        let lastColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7).cgColor
+        let firstColor = UIColor.clear.cgColor
+        //let lastColor = UIColor.black.cgColor
+        gradient.colors = [lastColor,firstColor,lastColor,firstColor,lastColor]
+        gradient.locations = [0.0,0.3,0.5,0.8,1.0]
+        view.layer.insertSublayer(gradient, at: 0)
+        superViewBackGroundImageView.addSubview(view)
+        superViewBackGroundImageView.bringSubview(toFront: view)
+        // 1
+        let darkBlur = UIBlurEffect(style: UIBlurEffectStyle.regular)
+        // 2
+        let blurView = UIVisualEffectView(effect: darkBlur)
+        blurView.frame = view.bounds
+        blurView.alpha = 0.9
+        // 3
+        superViewBackGroundImageView.addSubview(blurView)
     }
     //MARK: - IB Action Methods
     @IBAction func addNewRecording(_ sender: Any) {
@@ -360,7 +385,7 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
                 cellPlayButtonImage = image
             }
         }
-        seperatorView.backgroundColor = vcBGColor
+        //seperatorView.backgroundColor = vcBGColor
         cellTextColor = vcTextColor
         titleLabel.textColor = vcTextColor
         recordingsTableView.reloadData()
