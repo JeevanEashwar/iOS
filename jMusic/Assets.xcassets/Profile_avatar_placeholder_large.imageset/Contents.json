@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "Profile_avatar_placeholder_large.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "previous-track-white.png",
       "scale" : "2x"
     },
     {

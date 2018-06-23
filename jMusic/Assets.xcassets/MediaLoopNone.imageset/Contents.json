@@ -2,11 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "MediaLoopNone.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "next-track-white.png",
+      "filename" : "MediaLoopNone@2x.png",
       "scale" : "2x"
     },
     {

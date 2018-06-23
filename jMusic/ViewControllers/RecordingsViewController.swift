@@ -49,7 +49,6 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
         seperatorView.backgroundColor = appDelegate.defaultThemeBGColor
         cellTextColor = appDelegate.defaultThemeTextColor
         titleLabel.textColor = appDelegate.defaultThemeTextColor
-        addButton.tintColor = defaultTintColor
         recordingSession = AVAudioSession.sharedInstance()
         self.recordingsTableView.delegate=self
         self.recordingsTableView.dataSource=self
@@ -57,7 +56,7 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
         recordingView.layer.cornerRadius = 15
         recordingsInnerView.layer.cornerRadius = 15
         saveButton.layer.cornerRadius=8
-        if let image = UIImage(named: "play") {
+        if let image = UIImage(named: "playDark") {
             cellPlayButtonImage = image
         }
         self.getAudioFilesListFromDirectory()
@@ -133,6 +132,8 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
             }
             timer.invalidate()
             timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateCurrentTime), userInfo: nil, repeats: true)
+            self.saveButton.isEnabled = false
+            self.saveButton.alpha = 0.5
             startRecording()
         } else {
             finishRecording(success: true)
@@ -211,6 +212,7 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
             //enable save button
             self.saveButton.isEnabled = true
             self.saveButton.alpha = 1.0
+            self.saveRecording(self)
         } else {
             // save button should remain disabled
             self.saveButton.isEnabled = false
@@ -318,12 +320,12 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
     }
     func resetAllCellsDisplay(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        var imageName:String = "play"
+        var imageName:String = "playDark"
         if(appThemeStyle==appDelegate.ApplicationThemeStyleDark){
-            imageName = "playwhite"
+            imageName = "playWhite"
         }
         else if(appThemeStyle==appDelegate.ApplicationThemeStyleDefault){
-            imageName = "play"
+            imageName = "playDark"
         }
         let cells = self.recordingsTableView.visibleCells as! Array<RecordingCustomTVCell>
         for cell in cells{
@@ -362,9 +364,6 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
     // apptheme changer
     func updateViewTheme(themeStyle:String){
         appThemeStyle = themeStyle
-        guard addButton != nil,cellPlayButtonImage != nil else{
-            return
-        }
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         var vcBGColor:UIColor=appDelegate.defaultThemeBGColor
         var vcTextColor:UIColor=appDelegate.defaultThemeTextColor
@@ -372,23 +371,23 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
         if(themeStyle==appDelegate.ApplicationThemeStyleDark){
             vcBGColor=appDelegate.darkThemeBGColor
             vcTextColor=appDelegate.darkThemeTextColor
-            addButton.tintColor=appDelegate.darkThemeTextColor
-            if let image = UIImage(named: "playwhite") {
+            if let image = UIImage(named: "playWhite") {
                 cellPlayButtonImage = image
             }
+            addButton?.tintColor = UIColor.white
         }
         else if(themeStyle==appDelegate.ApplicationThemeStyleDefault){
             vcBGColor=appDelegate.defaultThemeBGColor
             vcTextColor=appDelegate.defaultThemeTextColor
-            addButton.tintColor = defaultTintColor
-            if let image = UIImage(named: "play") {
+            if let image = UIImage(named: "playDark") {
                 cellPlayButtonImage = image
             }
+            addButton?.tintColor = UIColor.black
         }
         //seperatorView.backgroundColor = vcBGColor
         cellTextColor = vcTextColor
-        titleLabel.textColor = vcTextColor
-        recordingsTableView.reloadData()
+        titleLabel?.textColor = vcTextColor
+        recordingsTableView?.reloadData()
     }
     //MARK: - AVAudioPlayer Delegates
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
@@ -483,6 +482,16 @@ class RecordingsViewController: UIViewController,AVAudioRecorderDelegate,UITable
                 print("An error took place: \(error)")
             }
         }
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        if self.view.viewWithTag(indexPath.section+1000) != nil {
+            if let playButton = self.view.viewWithTag(indexPath.section+1000) as? UIButton {
+                self.playClicked(playButton)
+            }
+            
+        }
+        
     }
 
     /*

@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "recordingBG.jpg",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "pause-white.png",
       "scale" : "2x"
     },
     {

@@ -9,22 +9,35 @@
 import UIKit
 import AVFoundation
 import MediaPlayer
-class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout{
+enum SongsLoopType {
+    case SingleSong
+    case LoopAlbum
+    case None
+}
+enum ListShuffle {
+    case Shuffle
+    case noShuffle
+}
+class HomeViewController: UIViewController,AVAudioPlayerDelegate{
     //variables
-    var songsList=[NSDictionary]()
-    var allSongsDetails = [String: Array<Any>]()
+    var songsList                                   = [NSDictionary]()
+    var listBeforeShuffling                         = [NSDictionary]()
+    var allSongsDetails                             = [String: Array<Any>]()
     var audioPlayer: AVPlayer?
     var playerItem:AVPlayerItem?
     var currentPlayTime:TimeInterval?
-    var timer = Timer()
-    var imageCache : NSCache<AnyObject, UIImage> = NSCache()
+    var timer                                       = Timer()
+    var imageCache : NSCache<AnyObject, UIImage>    = NSCache()
     var songImage:UIImage!
-    var selectedSongIndex:Int = 0
-    var animating:Bool = false
-    var pauseName = "pauseDark"
-    var playName = "playDark"
-    var currentSongIndex = 0
-    let domain = "http://localhost/~jeevan"
+    var selectedSongIndex:Int                       = 0
+    var animating:Bool                              = false
+    var pauseName                                   = "pauseDark"
+    var playName                                    = "playDark"
+    var currentSongIndex                            = 0
+    let domain                                      = "http://localhost/~jeevan"
+    var songsLoopType:SongsLoopType                 = .None
+    var listShuffle:ListShuffle                     = .noShuffle
+    var previousOffset:CGFloat = CGFloat()
     //outlets
      @IBOutlet weak var superViewBackGroundImageView: UIImageView!
     @IBOutlet weak var artistLabel: UILabel!
@@ -40,19 +53,23 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
     
     @IBOutlet weak var previousTrackButton: UIButton!
     @IBOutlet weak var nextTrackButton: UIButton!
+    @IBOutlet weak var shuffleButton:UIButton!
+    @IBOutlet weak var loopingButton:UIButton!
     // MARK: VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         /*1. All UI updates here*/
         addGradientToBackGround()
+        makeAllPlayerButtonsTintable()
+        setCurrentStateForLoopAndShuffleButtons()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         updateViewTheme(themeStyle: appDelegate.ApplicationThemeStyleDefault)
         largeWhiteIndicator.isHidden = true // indicator at playbutton is hidden by default
         songsCollectionView.dataSource=self
         songsCollectionView.delegate=self
-        //songsCollectionView.decelerationRate=UIScrollViewDecelerationRateFast
-        songsCollectionView.isPagingEnabled = true
+        songsCollectionView.isPagingEnabled = false
+        songsCollectionView.decelerationRate = UIScrollViewDecelerationRateFast
         let nib = UINib(nibName: "SongInfoCell", bundle: nil)
         songsCollectionView.register(nib, forCellWithReuseIdentifier: "songInfoCell")
         playButton.layer.cornerRadius = playButton.frame.size.width/2
@@ -74,6 +91,66 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
     }
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
+    }
+    private func setCurrentStateForLoopAndShuffleButtons(){
+        songsLoopType = .None
+        listShuffle = .noShuffle
+        updateLoopButtonImage()
+        updateShuffleButtonImage()
+    }
+    private func makeAllPlayerButtonsTintable(){
+        //shuffle
+        let shuffleButtonorigImage = UIImage(named: "MediaShuffle")
+        let shuffleButtonTintedImage = shuffleButtonorigImage?.withRenderingMode(.alwaysTemplate)
+        shuffleButton.setImage(shuffleButtonTintedImage, for: .normal)
+        shuffleButton.tintColor = .black
+        //loop
+        let loopButtonorigImage = UIImage(named: "MediaLoopNone")
+        let loopButtonTintedImage = loopButtonorigImage?.withRenderingMode(.alwaysTemplate)
+        loopingButton.setImage(loopButtonTintedImage, for: .normal)
+        loopingButton.tintColor = .black
+        //nexttrack
+        let nextButtonorigImage = UIImage(named: "nextTrackDark")
+        let nextButtonTintedImage = nextButtonorigImage?.withRenderingMode(.alwaysTemplate)
+        nextTrackButton.setImage(nextButtonTintedImage, for: .normal)
+        nextTrackButton.tintColor = .black
+        //previoustrack
+        let prevButtonorigImage = UIImage(named: "previousTrackDark")
+        let prevButtonTintedImage = prevButtonorigImage?.withRenderingMode(.alwaysTemplate)
+        previousTrackButton.setImage(prevButtonTintedImage, for: .normal)
+        previousTrackButton.tintColor = .black
+        //playbutton
+        let playButtonorigImage = UIImage(named: "playDark")
+        let playButtonTintedImage = playButtonorigImage?.withRenderingMode(.alwaysTemplate)
+        playButton.setImage(playButtonTintedImage, for: .normal)
+        playButton.tintColor = .black
+        
+    }
+    private func updateLoopButtonImage() {
+        var image:UIImage?
+        switch songsLoopType {
+        case .None:
+            image = UIImage(named: "MediaLoopNone")
+        case .LoopAlbum:
+            image = UIImage(named: "MediaLoopAlbum")
+        case .SingleSong:
+            image = UIImage(named: "MediaRepeatSingle")
+        }
+        let loopButtonorigImage = image
+        let loopButtonTintedImage = loopButtonorigImage?.withRenderingMode(.alwaysTemplate)
+        loopingButton.setImage(loopButtonTintedImage, for: .normal)
+    }
+    private func updateShuffleButtonImage() {
+        var image:UIImage?
+        switch listShuffle {
+        case .noShuffle:
+            image = UIImage(named: "MediaNoShuffle")
+        case .Shuffle:
+            image = UIImage(named: "MediaShuffle")
+        }
+        let shuffleButtonorigImage = image
+        let shuffleButtonTintedImage = shuffleButtonorigImage?.withRenderingMode(.alwaysTemplate)
+        shuffleButton.setImage(shuffleButtonTintedImage, for: .normal)
     }
     private func addGradientToBackGround(){
         let view = UIView(frame: self.view.frame)
@@ -102,7 +179,7 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
         if(appDelegate.appTheme == .ApplicationThemeStyleDark){
             let thumbImageNormal = #imageLiteral(resourceName: "lightCD") // UIImage(named: "SliderThumb-Normal")
             progressIndicator.setThumbImage(thumbImageNormal, for: .normal)
-            progressIndicator.minimumTrackTintColor = UIColor.black
+            progressIndicator.minimumTrackTintColor = UIColor.magenta
             progressIndicator.maximumTrackTintColor = UIColor.white
         }
         else{
@@ -113,42 +190,7 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
         }
     }
     
-    // MARK: CollectionView Methods
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if allSongsDetails.count>0{
-            return allSongsDetails.count
-        }else {
-            return 0
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let reuseIdentifier = "songInfoCell"
-        let cell:SongInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath as IndexPath) as! SongInfoCell
-        cell.songThumbnailImage.tag = 3000+indexPath.item //3000 tag for song imageview
-        cell.songCellPlayButton.tag = 2000+indexPath.item //2000 tag for play buttons in songsCollectionView cells
-        cell.songCellPlayButton.addTarget(self, action: #selector(songSelectedFromCollectionView), for: .touchUpInside)
-        cell.songThumbnailImage.image=UIImage(named: "appBackgroundImage.png")
-        if let songString:String = songsList[indexPath.item]["path"] as? String, let songDetails:Array<Any> = allSongsDetails[songString] {
-            cell.songName.text = songDetails[0] as? String
-            cell.artistName.text = songDetails[1] as? String
-            if let songRelatedData:Data = songDetails[2] as? Data {
-                cell.songThumbnailImage.image = UIImage(data: songRelatedData)
-            }
-        }else {
-            cell.songName.text = "-"
-            cell.artistName.text = "-"
-        }
-        return cell;
-        
-    }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //highLightCellAtIndexPath(indexPath: indexPath)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: songsCollectionView.frame.size.width-6, height: songsCollectionView.frame.size.height-100)
-    }
+   
     // MARK: Outlet Methods
     @IBAction func playAudioAtSliderValue(_ sender: Any) {
         if audioPlayer?.rate == 0{
@@ -225,6 +267,32 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
             updatePlayerControlsUI()
         }
     }
+    @IBAction func loopButtonClicked(_ sender: Any) {
+        switch songsLoopType {
+        case .None:
+            songsLoopType = .LoopAlbum
+        case .LoopAlbum:
+            songsLoopType = .SingleSong
+        case .SingleSong:
+            songsLoopType = .None
+        }
+        updateLoopButtonImage()
+    }
+    @IBAction func shuffleButtonClicked(_ sender: Any) {
+        switch listShuffle {
+        case .noShuffle:
+            listShuffle = .Shuffle
+            listBeforeShuffling = songsList
+            songsList.shuffle()
+            songsCollectionView.reloadData()
+        case .Shuffle:
+            listShuffle = .noShuffle
+            songsList = listBeforeShuffling
+            songsCollectionView.reloadData()
+        }
+        updateShuffleButtonImage()
+    }
+
     // MARK: Helper Methods
     func updatePlayerControlsUI() {
         if !previousTrackButton.isEnabled {
@@ -250,26 +318,27 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
         }
     }
     func spinViewWithAnimation(_ options:UIViewAnimationOptions){
-        UIView.animate(withDuration: 1.0, delay: 0.0, options: [], animations: {
+        UIView.animate(withDuration: 2.0, delay: 0.0, options: [], animations: {
             if let imageView = self.playButton.imageView{
-                imageView.transform = imageView.transform.rotated(by: CGFloat(CGFloat.pi/4))
+                imageView.transform = imageView.transform.rotated(by: CGFloat(CGFloat.pi/2))
             }
         }, completion:{finished in
             if(finished){
                 if (self.animating) {
                     // if flag still set, keep spinning with constant speed
-                    self.spinViewWithAnimation(.curveEaseIn)
-                } else if (options != .curveEaseOut) {
-                    // one last spin, with deceleration
-                    //self.spinViewWithAnimation(.curveEaseOut)
+                    self.spinViewWithAnimation(.beginFromCurrentState)
                 }
+//                else if (options != .curveEaseOut) {
+//                    // one last spin, with deceleration
+//                    //self.spinViewWithAnimation(.curveEaseOut)
+//                }
             }
         })
     }
     func startSpin(){
         if(!animating){
             animating = !animating
-            spinViewWithAnimation(.curveEaseIn)
+            spinViewWithAnimation(.beginFromCurrentState)
         }
     }
     func stopSpin(){
@@ -279,25 +348,20 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         var vcBGColor:UIColor
         var vcTextColor:UIColor
+        var buttonsTintColor:UIColor?
         vcBGColor=appDelegate.defaultThemeBGColor
         vcTextColor=appDelegate.defaultThemeTextColor
         if(themeStyle==appDelegate.ApplicationThemeStyleDark){
             vcBGColor=appDelegate.darkThemeBGColor
             vcTextColor=appDelegate.darkThemeTextColor
-            playName = "playWhite"
-            pauseName = "pauseWhite"
-            nextTrackButton.setImage(UIImage(named: "nextTrackWhite"), for: .normal)
-            previousTrackButton.setImage(UIImage(named: "previousTrackWhite"), for: .normal)
+            buttonsTintColor = UIColor.white
             self.playerLayoutView.backgroundColor = UIColor.black
             self.playerLayoutView.alpha = 0.95
         }
         else if(themeStyle==appDelegate.ApplicationThemeStyleDefault){
             vcBGColor=appDelegate.defaultThemeBGColor
             vcTextColor=appDelegate.defaultThemeTextColor
-            playName = "playDark"
-            pauseName = "pauseDark"
-            nextTrackButton.setImage(UIImage(named: "nextTrackDark"), for: .normal)
-            previousTrackButton.setImage(UIImage(named: "previousTrackDark"), for: .normal)
+            buttonsTintColor = UIColor.black
             self.playerLayoutView.backgroundColor = UIColor.white
             self.playerLayoutView.alpha = 0.95
         }
@@ -307,6 +371,11 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
         self.songNameLabel.textColor=vcTextColor
         self.playButton.layer.borderColor = vcTextColor.cgColor
         self.view.backgroundColor=vcBGColor
+        playButton.tintColor = buttonsTintColor
+        previousTrackButton.tintColor = buttonsTintColor
+        nextTrackButton.tintColor = buttonsTintColor
+        shuffleButton.tintColor = buttonsTintColor
+        loopingButton.tintColor = buttonsTintColor
         setUpProgressIndicatorStyle()
     }
     func updateCurrentTime(){
@@ -314,8 +383,8 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
         let currentTime:TimeInterval=currentCMTime.seconds
         currentTimeLabel.text=changeTimeIntervalToDisplayableString(time: currentTime)
         progressIndicator.setValue(Float(currentTime), animated: false)
-        print("loadedTimeRanges:\(String(describing: audioPlayer?.currentItem?.loadedTimeRanges))")
-        print("seekableTimeRanges:\(String(describing: audioPlayer?.currentItem?.seekableTimeRanges))")
+//        print("loadedTimeRanges:\(String(describing: audioPlayer?.currentItem?.loadedTimeRanges))")
+//        print("seekableTimeRanges:\(String(describing: audioPlayer?.currentItem?.seekableTimeRanges))")
     }
     func changeTimeIntervalToDisplayableString(time:TimeInterval)->String{
         var minutes = floor(time/60)
@@ -359,13 +428,30 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
         
     }
     func finishedPlaying(myNotification:Notification) {
-        playButton.setImage(UIImage(named: playName), for: .normal)
-        playButton.layer.borderWidth = 0
-        timer.invalidate()
-        let stopedPlayerItem: AVPlayerItem = myNotification.object as! AVPlayerItem
-        stopedPlayerItem.seek(to:kCMTimeZero)
-        currentTimeLabel.text=changeTimeIntervalToDisplayableString(time: kCMTimeZero.seconds)
-        progressIndicator.setValue(Float(kCMTimeZero.seconds), animated: false)
+        //loop check
+        switch songsLoopType {
+        case .None :
+            timer.invalidate()
+            self.stopSpin()
+            let stopedPlayerItem: AVPlayerItem = myNotification.object as! AVPlayerItem
+            stopedPlayerItem.seek(to:kCMTimeZero)
+            currentTimeLabel.text=changeTimeIntervalToDisplayableString(time: kCMTimeZero.seconds)
+            progressIndicator.setValue(Float(kCMTimeZero.seconds), animated: false)
+        case .SingleSong :
+            self.audioPlayer?.seek(to: CMTimeMakeWithSeconds(Float64(0), 1000))
+            self.audioPlayer?.play()
+        case .LoopAlbum:
+            NotificationCenter.default.removeObserver(self)
+            if(currentSongIndex<songsList.count-1){
+                playNextSong(self)
+            }else if currentSongIndex == songsList.count-1 {
+                currentSongIndex = 0
+                songsCollectionView.selectItem(at: IndexPath.init(item: currentSongIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
+                playSongWithIndex(currentSongIndex)
+                updatePlayerControlsUI()
+            }
+            
+        }
     }
     func getDataFromUrl(url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
         URLSession.shared.dataTask(with: url) { data, response, error in
@@ -572,12 +658,7 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate,UICollectionVie
             
         }
     }
-    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool){
-        
-        playButton.setImage(UIImage(named: pauseName), for: .normal)
-        playButton.layer.borderWidth = 0
-        timer.invalidate()
-    }
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -608,4 +689,66 @@ extension AVPlayer {
         
         return status == .readyToPlay && loaded
     }
+}
+extension HomeViewController :  UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout{
+    // MARK: CollectionView Methods
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if allSongsDetails.count>0{
+            return allSongsDetails.count
+        }else {
+            return 0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let reuseIdentifier = "songInfoCell"
+        let cell:SongInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath as IndexPath) as! SongInfoCell
+        cell.songThumbnailImage.tag = 3000+indexPath.item //3000 tag for song imageview
+        cell.songCellPlayButton.tag = 2000+indexPath.item //2000 tag for play buttons in songsCollectionView cells
+        cell.songCellPlayButton.addTarget(self, action: #selector(songSelectedFromCollectionView), for: .touchUpInside)
+        cell.songThumbnailImage.image=UIImage(named: "appBackgroundImage.png")
+        if let songString:String = songsList[indexPath.item]["path"] as? String, let songDetails:Array<Any> = allSongsDetails[songString] {
+            cell.songName.text = songDetails[0] as? String
+            cell.artistName.text = songDetails[1] as? String
+            if let songRelatedData:Data = songDetails[2] as? Data {
+                cell.songThumbnailImage.image = UIImage(data: songRelatedData)
+            }
+        }else {
+            cell.songName.text = "-"
+            cell.artistName.text = "-"
+        }
+        return cell;
+        
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //highLightCellAtIndexPath(indexPath: indexPath)
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        print("CollViewWidth:\(songsCollectionView.frame.size.width)")
+        print("selfViewWidth:\(self.view.frame.width)")
+        print("Screen width: \(UIScreen.main.bounds.width)")
+        return CGSize(width: songsCollectionView.frame.size.width, height: songsCollectionView.frame.size.height-100)
+    }
+    //ScrollView Methods
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if scrollView == songsCollectionView {
+            if previousOffset > scrollView.contentOffset.x {
+                guard let indexPathOfFirstVisibleCell = songsCollectionView.indexPathsForVisibleItems.sorted().first else { return }
+                songsCollectionView.scrollToItem(at: indexPathOfFirstVisibleCell, at: .centeredHorizontally, animated: true)
+            }else {
+                guard let indexPathOfLastVisibleCell = songsCollectionView.indexPathsForVisibleItems.sorted().last else { return }
+                songsCollectionView.scrollToItem(at: indexPathOfLastVisibleCell, at: .centeredHorizontally, animated: true)
+            }
+            previousOffset = scrollView.contentOffset.x
+        }
+        
+    }
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView == songsCollectionView && !decelerate{
+            scrollViewDidEndDecelerating(scrollView)
+        }
+    }
+
 }
