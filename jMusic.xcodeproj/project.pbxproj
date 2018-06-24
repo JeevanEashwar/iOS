@@ -12,6 +12,13 @@
 		0971132D1F2307CD00EB4D86 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0971132C1F2307CD00EB4D86 /* SecondViewController.swift */; };
 		097113321F2307CD00EB4D86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 097113311F2307CD00EB4D86 /* Assets.xcassets */; };
 		097113351F2307CD00EB4D86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 097113331F2307CD00EB4D86 /* LaunchScreen.storyboard */; };
+		09C7769820DF662D008CF015 /* SongsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C7769720DF662D008CF015 /* SongsModel.swift */; };
+		09C7769C20DF77AA008CF015 /* SongsListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C7769A20DF77AA008CF015 /* SongsListTableViewCell.swift */; };
+		09C7769D20DF77AA008CF015 /* SongsListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09C7769B20DF77AA008CF015 /* SongsListTableViewCell.xib */; };
+		09C776A020DF77BF008CF015 /* AlbumsListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C7769E20DF77BF008CF015 /* AlbumsListTableViewCell.swift */; };
+		09C776A120DF77BF008CF015 /* AlbumsListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09C7769F20DF77BF008CF015 /* AlbumsListTableViewCell.xib */; };
+		09C776A420DF77CE008CF015 /* ArtistsListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C776A220DF77CE008CF015 /* ArtistsListTableViewCell.swift */; };
+		09C776A520DF77CE008CF015 /* ArtistsListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09C776A320DF77CE008CF015 /* ArtistsListTableViewCell.xib */; };
 		2A80870B1FD0024100F43CEA /* songs.json in Resources */ = {isa = PBXBuildFile; fileRef = 2A80870A1FD0024100F43CEA /* songs.json */; };
 		2AD57D2C1FC7F4E70086C25C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D2B1FC7F4E70086C25C /* Main.storyboard */; };
 		2AD57D2E1FC7F6E10086C25C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D2D1FC7F6E10086C25C /* GoogleService-Info.plist */; };
@@ -31,6 +38,13 @@
 		097113311F2307CD00EB4D86 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		097113341F2307CD00EB4D86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		097113361F2307CD00EB4D86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		09C7769720DF662D008CF015 /* SongsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongsModel.swift; sourceTree = "<group>"; };
+		09C7769A20DF77AA008CF015 /* SongsListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongsListTableViewCell.swift; sourceTree = "<group>"; };
+		09C7769B20DF77AA008CF015 /* SongsListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SongsListTableViewCell.xib; sourceTree = "<group>"; };
+		09C7769E20DF77BF008CF015 /* AlbumsListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsListTableViewCell.swift; sourceTree = "<group>"; };
+		09C7769F20DF77BF008CF015 /* AlbumsListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlbumsListTableViewCell.xib; sourceTree = "<group>"; };
+		09C776A220DF77CE008CF015 /* ArtistsListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistsListTableViewCell.swift; sourceTree = "<group>"; };
+		09C776A320DF77CE008CF015 /* ArtistsListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArtistsListTableViewCell.xib; sourceTree = "<group>"; };
 		1EECD0F2B6C87D0F05362FA8 /* Pods-jMusic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-jMusic.debug.xcconfig"; path = "Pods/Target Support Files/Pods-jMusic/Pods-jMusic.debug.xcconfig"; sourceTree = "<group>"; };
 		2A80870A1FD0024100F43CEA /* songs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = songs.json; sourceTree = "<group>"; };
 		2AD57D2B1FC7F4E70086C25C /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -83,6 +97,7 @@
 				09DD2F221F230EE000654767 /* images */,
 				09DD2F1F1F230D1F00654767 /* musicFiles */,
 				0972D83920DE1C3400929C73 /* ViewControllers */,
+				09C7769920DF6636008CF015 /* Models */,
 				0972D83A20DE1C6000929C73 /* Cells */,
 				0972D83B20DE1C8100929C73 /* Supporting Files */,
 			);
@@ -106,6 +121,12 @@
 				2AD57D331FC805BD0086C25C /* SongInfoCell.xib */,
 				84C1D9391FF5138F00D47FC3 /* RecordingCustomTVCell.swift */,
 				84C1D93A1FF5138F00D47FC3 /* RecordingCustomTVCell.xib */,
+				09C7769A20DF77AA008CF015 /* SongsListTableViewCell.swift */,
+				09C7769B20DF77AA008CF015 /* SongsListTableViewCell.xib */,
+				09C7769E20DF77BF008CF015 /* AlbumsListTableViewCell.swift */,
+				09C7769F20DF77BF008CF015 /* AlbumsListTableViewCell.xib */,
+				09C776A220DF77CE008CF015 /* ArtistsListTableViewCell.swift */,
+				09C776A320DF77CE008CF015 /* ArtistsListTableViewCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -121,6 +142,14 @@
 				2A80870A1FD0024100F43CEA /* songs.json */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		09C7769920DF6636008CF015 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				09C7769720DF662D008CF015 /* SongsModel.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		09DD2F1F1F230D1F00654767 /* musicFiles */ = {
@@ -222,8 +251,11 @@
 				84C1D93C1FF5138F00D47FC3 /* RecordingCustomTVCell.xib in Resources */,
 				097113321F2307CD00EB4D86 /* Assets.xcassets in Resources */,
 				2A80870B1FD0024100F43CEA /* songs.json in Resources */,
+				09C7769D20DF77AA008CF015 /* SongsListTableViewCell.xib in Resources */,
 				2AD57D2C1FC7F4E70086C25C /* Main.storyboard in Resources */,
+				09C776A120DF77BF008CF015 /* AlbumsListTableViewCell.xib in Resources */,
 				2AD57D351FC805BD0086C25C /* SongInfoCell.xib in Resources */,
+				09C776A520DF77CE008CF015 /* ArtistsListTableViewCell.xib in Resources */,
 				2AD57D2E1FC7F6E10086C25C /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -296,12 +328,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09C7769C20DF77AA008CF015 /* SongsListTableViewCell.swift in Sources */,
 				2AD57D341FC805BD0086C25C /* SongInfoCell.swift in Sources */,
 				0971132D1F2307CD00EB4D86 /* SecondViewController.swift in Sources */,
 				84C1D93B1FF5138F00D47FC3 /* RecordingCustomTVCell.swift in Sources */,
 				097113291F2307CD00EB4D86 /* AppDelegate.swift in Sources */,
 				0971132B1F2307CD00EB4D86 /* HomeViewController.swift in Sources */,
 				84911DCB1FF39C590036C5BD /* RecordingsViewController.swift in Sources */,
+				09C7769820DF662D008CF015 /* SongsModel.swift in Sources */,
+				09C776A420DF77CE008CF015 /* ArtistsListTableViewCell.swift in Sources */,
+				09C776A020DF77BF008CF015 /* AlbumsListTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

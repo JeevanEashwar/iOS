@@ -20,9 +20,9 @@ enum ListShuffle {
 }
 class HomeViewController: UIViewController,AVAudioPlayerDelegate{
     //variables
-    var songsList                                   = [NSDictionary]()
-    var listBeforeShuffling                         = [NSDictionary]()
-    var allSongsDetails                             = [String: Array<Any>]()
+    //var songsList                                   = [NSDictionary]()
+    var songsModelArrayBeforeShuffling                = [SongsModel]()
+    //var allSongsDetails                             = [String: Array<Any>]()
     var audioPlayer: AVPlayer?
     var playerItem:AVPlayerItem?
     var currentPlayTime:TimeInterval?
@@ -38,6 +38,7 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
     var songsLoopType:SongsLoopType                 = .None
     var listShuffle:ListShuffle                     = .noShuffle
     var previousOffset:CGFloat = CGFloat()
+    var songsModelArray = [SongsModel]()
     //outlets
      @IBOutlet weak var superViewBackGroundImageView: UIImageView!
     @IBOutlet weak var artistLabel: UILabel!
@@ -55,12 +56,18 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
     @IBOutlet weak var nextTrackButton: UIButton!
     @IBOutlet weak var shuffleButton:UIButton!
     @IBOutlet weak var loopingButton:UIButton!
+    @IBOutlet weak var listView: UIView!
+    @IBOutlet weak var listTableView: UITableView!
+    @IBOutlet weak var listTypeSegmentControl: UISegmentedControl!
+
+    
     // MARK: VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         /*1. All UI updates here*/
         addGradientToBackGround()
+        setUpListViewAndItsSubviews()
         makeAllPlayerButtonsTintable()
         setCurrentStateForLoopAndShuffleButtons()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -88,9 +95,16 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
             selector: #selector(self.finishedPlaying(myNotification:)),
             name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
             object: audioPlayer?.currentItem)
+        listTableView.reloadData()
     }
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
+    }
+    private func setUpListViewAndItsSubviews(){
+        listView.isHidden = true
+        listTableView.delegate = self
+        listTableView.dataSource = self
+        listTableView.register(UINib(nibName: "SongsListTableViewCell", bundle: nil), forCellReuseIdentifier: "songsListTableViewCell")
     }
     private func setCurrentStateForLoopAndShuffleButtons(){
         songsLoopType = .None
@@ -192,6 +206,10 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
     
    
     // MARK: Outlet Methods
+    @IBAction func showListButton(_ sender: Any) {
+        listTableView.reloadData()
+        listView.isHidden = !listView.isHidden
+    }
     @IBAction func playAudioAtSliderValue(_ sender: Any) {
         if audioPlayer?.rate == 0{
             audioPlayer?.seek(to: CMTimeMakeWithSeconds(Float64(progressIndicator.value), 1000))
@@ -260,7 +278,7 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
     }
     
     @IBAction func playNextSong(_ sender: Any) {
-        if(currentSongIndex<songsList.count-1){
+        if(currentSongIndex<songsModelArray.count-1){
             songsCollectionView.selectItem(at: IndexPath.init(item: currentSongIndex+1, section: 0), animated: true, scrollPosition: .centeredHorizontally)
             currentSongIndex += 1
             playSongWithIndex(currentSongIndex)
@@ -282,12 +300,12 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
         switch listShuffle {
         case .noShuffle:
             listShuffle = .Shuffle
-            listBeforeShuffling = songsList
-            songsList.shuffle()
+            songsModelArrayBeforeShuffling = songsModelArray
+            songsModelArray.shuffle()
             songsCollectionView.reloadData()
         case .Shuffle:
             listShuffle = .noShuffle
-            songsList = listBeforeShuffling
+            songsModelArray = songsModelArrayBeforeShuffling
             songsCollectionView.reloadData()
         }
         updateShuffleButtonImage()
@@ -307,7 +325,7 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
             previousTrackButton.alpha = 0.5
             previousTrackButton.isEnabled = false
         }
-        else if currentSongIndex == songsList.count-1 {
+        else if currentSongIndex == songsModelArray.count-1 {
             nextTrackButton.alpha = 0.5
             nextTrackButton.isEnabled = false
         }else{
@@ -344,6 +362,20 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
     func stopSpin(){
         animating = false
     }
+    func spinViewWithAnimation(_ options:UIViewAnimationOptions, _imageView:UIImageView){
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: [], animations: {
+            _imageView.transform = _imageView.transform.scaledBy(x: 1.05, y: 1.05)
+            
+        }, completion:{finished in
+            if(finished){
+                _imageView.transform = _imageView.transform.scaledBy(x: 1/1.05, y: 1/1.05)
+                if (self.animating) {
+                    // if flag still set, keep spinning with constant speed
+                    self.spinViewWithAnimation(.beginFromCurrentState, _imageView: _imageView)
+                }
+            }
+        })
+    }
     func updateViewTheme(themeStyle:String){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         var vcBGColor:UIColor
@@ -377,6 +409,7 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
         shuffleButton.tintColor = buttonsTintColor
         loopingButton.tintColor = buttonsTintColor
         setUpProgressIndicatorStyle()
+        
     }
     func updateCurrentTime(){
         let currentCMTime:CMTime=(audioPlayer?.currentTime())!
@@ -442,9 +475,9 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
             self.audioPlayer?.play()
         case .LoopAlbum:
             NotificationCenter.default.removeObserver(self)
-            if(currentSongIndex<songsList.count-1){
+            if(currentSongIndex<songsModelArray.count-1){
                 playNextSong(self)
-            }else if currentSongIndex == songsList.count-1 {
+            }else if currentSongIndex == songsModelArray.count-1 {
                 currentSongIndex = 0
                 songsCollectionView.selectItem(at: IndexPath.init(item: currentSongIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
                 playSongWithIndex(currentSongIndex)
@@ -467,25 +500,25 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
             }
             do {
                 if let songsArray = try JSONSerialization.jsonObject(with: data) as? [NSDictionary]{
-                    self.songsList = songsArray
                     DispatchQueue.global(qos: .background).async {
                         self.getAllSongsMetaData(for: songsArray)
                         DispatchQueue.main.async {
                             self.songsCollectionView.reloadData()
                         }
                     }
-                }
-                if let firstSongPath = self.songsList.first?["path"] as? String{
-                    if let url = URL.init(string: "\(self.domain+firstSongPath).mp3") {
-                        self.playerItem = AVPlayerItem(url: url)
-                        self.audioPlayer = AVPlayer(playerItem: self.playerItem)
-                        self.currentSongIndex = 0
-                        DispatchQueue.main.async {
-                            self.previousTrackButton.alpha = 0.5
-                            self.previousTrackButton.isEnabled = false
+                    if let firstSongPath = songsArray.first?["path"] as? String{
+                        if let url = URL.init(string: "\(self.domain+firstSongPath).mp3") {
+                            self.playerItem = AVPlayerItem(url: url)
+                            self.audioPlayer = AVPlayer(playerItem: self.playerItem)
+                            self.currentSongIndex = 0
+                            DispatchQueue.main.async {
+                                self.previousTrackButton.alpha = 0.5
+                                self.previousTrackButton.isEnabled = false
+                            }
                         }
                     }
                 }
+
             }
             catch let parseError {
                 print("Error in parsing songs list: \(parseError.localizedDescription)")
@@ -504,7 +537,7 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
                     if item.commonKey != nil && item.value != nil {
                         if item.commonKey  == "title" {
                             DispatchQueue.main.async {
-                                print("title:\(item.stringValue!)")
+//                                print("title:\(item.stringValue!)")
                                 self.songNameLabel.text = item.stringValue!
                                 self.songNameLabel.translatesAutoresizingMaskIntoConstraints = false
                                 //self.setupAutoLayout(label: self.songNameLabel)
@@ -516,7 +549,7 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
                         }
                         if item.commonKey   == "artist" {
                             DispatchQueue.main.async {
-                                print("artist:\(item.stringValue!)")
+//                                print("artist:\(item.stringValue!)")
                                 self.artistLabel.text = item.stringValue
                             }
                             
@@ -537,6 +570,7 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
         task.resume()
     }
     func getAllSongsMetaData(for songsArray:[NSDictionary]){
+        songsModelArray.removeAll()
         for songDict in songsArray{
             guard let songPath = songDict["path"] as? String else { continue }
             guard let url = URL.init(string: "\(domain+songPath)") else { continue }
@@ -544,22 +578,34 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
             let metadataList = newPlayerItem.asset.metadata
             var songName:String = ""
             var artistName:String = ""
+            var albumName:String = ""
             var imageData:Data = Data.init()
+            let songsModel = SongsModel()
+            songsModel.urlPath = songPath
             for item in metadataList {
                 if item.commonKey != nil && item.value != nil {
                     if item.commonKey  == "title" {
                         songName = item.stringValue!
+                        songsModel.title = songName
                     }
                     if item.commonKey   == "artist" {
                         artistName = item.stringValue!
+                        songsModel.artist = artistName
                     }
                     if item.commonKey  == "artwork" {
                         imageData = (item.value as! NSData) as Data
+                        songsModel.imageData = imageData
+                    }
+                    if item.commonKey == "albumName" {
+                        albumName = item.stringValue!
+                        songsModel.albumName = albumName
                     }
                 }
             }
-            let songDetailsArray = [songName,artistName,imageData] as [Any]
-            allSongsDetails[songPath] = songDetailsArray
+            songsModelArray.append(songsModel)
+            listTableView.reloadData()
+//            let songDetailsArray = [songName,artistName,imageData] as [Any]
+//            allSongsDetails[songPath] = songDetailsArray
         }
     }
     func songSelectedFromCollectionView(_ sender: UIButton){
@@ -573,11 +619,11 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
         selectedSongIndex = sender.tag-2000
         currentSongIndex = selectedSongIndex
         updatePlayerControlsUI()
-        if let firstSongPath = self.songsList[selectedSongIndex]["path"] as? String{
+        if let firstSongPath = self.songsModelArray[selectedSongIndex].urlPath as? String {
             let selectedSongString = "\(self.domain+firstSongPath).mp3"
             DispatchQueue.global(qos: .background).async {
                 // Background Thread
-                self.changeCurrentPlayerItem(urlString: selectedSongString, path:firstSongPath)
+                self.changeCurrentPlayerItem(urlString: selectedSongString, songIndex:self.selectedSongIndex)
                 self.audioPlayer?.play()
                 DispatchQueue.main.async {
                     // Run UI Updates
@@ -600,11 +646,11 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
             self.view.viewWithTag(2000+songIndex)?.isHidden = false
         }
         
-        if let songPath:String = songsList[songIndex]["path"] as? String{
+        if let songPath:String = self.songsModelArray[songIndex].urlPath as? String{
             let selectedSongString = "\(self.domain+songPath).mp3"
             DispatchQueue.global(qos: .background).async {
                 // Background Thread
-                self.changeCurrentPlayerItem(urlString: selectedSongString, path:songPath)
+                self.changeCurrentPlayerItem(urlString: selectedSongString, songIndex:songIndex)
                 self.audioPlayer?.play()
                 DispatchQueue.main.async {
                     // Run UI Updates
@@ -631,7 +677,7 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
         }
         
     }
-    func changeCurrentPlayerItem(urlString:String,path: String){
+    func changeCurrentPlayerItem(urlString:String,songIndex: Int){
         do {
             let url:URL = URL(string:urlString)!
             let newPlayerItem:AVPlayerItem = AVPlayerItem(url: url)
@@ -649,11 +695,12 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
             }
             DispatchQueue.main.async {
                 // Run UI Updates
-                self.songNameLabel.text = self.allSongsDetails[path]![0] as? String
+                let songDetails = self.songsModelArray[songIndex]
+                self.songNameLabel.text = songDetails.title
                 if(self.songNameLabel.isTruncated()){
                     self.startMarqueeLabelAnimation(label: self.songNameLabel)
                 }
-                self.artistLabel.text = self.allSongsDetails[path]![1] as? String
+                self.artistLabel.text = songDetails.artist
             }
             
         }
@@ -693,8 +740,8 @@ extension AVPlayer {
 extension HomeViewController :  UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout{
     // MARK: CollectionView Methods
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if allSongsDetails.count>0{
-            return allSongsDetails.count
+        if songsModelArray.count>0{
+            return songsModelArray.count
         }else {
             return 0
         }
@@ -706,16 +753,13 @@ extension HomeViewController :  UICollectionViewDataSource,UICollectionViewDeleg
         cell.songThumbnailImage.tag = 3000+indexPath.item //3000 tag for song imageview
         cell.songCellPlayButton.tag = 2000+indexPath.item //2000 tag for play buttons in songsCollectionView cells
         cell.songCellPlayButton.addTarget(self, action: #selector(songSelectedFromCollectionView), for: .touchUpInside)
-        cell.songThumbnailImage.image=UIImage(named: "appBackgroundImage.png")
-        if let songString:String = songsList[indexPath.item]["path"] as? String, let songDetails:Array<Any> = allSongsDetails[songString] {
-            cell.songName.text = songDetails[0] as? String
-            cell.artistName.text = songDetails[1] as? String
-            if let songRelatedData:Data = songDetails[2] as? Data {
-                cell.songThumbnailImage.image = UIImage(data: songRelatedData)
-            }
+        let songDetails = self.songsModelArray[indexPath.item]
+        cell.songName.text = songDetails.title
+        cell.artistName.text = songDetails.artist
+        if let imageData = songDetails.imageData {
+            cell.songThumbnailImage.image = UIImage(data: imageData)
         }else {
-            cell.songName.text = "-"
-            cell.artistName.text = "-"
+            cell.songThumbnailImage.image = UIImage(named: "appBackgroundImage.png")
         }
         return cell;
         
@@ -726,9 +770,6 @@ extension HomeViewController :  UICollectionViewDataSource,UICollectionViewDeleg
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        print("CollViewWidth:\(songsCollectionView.frame.size.width)")
-        print("selfViewWidth:\(self.view.frame.width)")
-        print("Screen width: \(UIScreen.main.bounds.width)")
         return CGSize(width: songsCollectionView.frame.size.width, height: songsCollectionView.frame.size.height-100)
     }
     //ScrollView Methods
@@ -751,4 +792,38 @@ extension HomeViewController :  UICollectionViewDataSource,UICollectionViewDeleg
         }
     }
 
+}
+extension HomeViewController : UITableViewDelegate,UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.songsModelArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "songsListTableViewCell", for: indexPath) as! SongsListTableViewCell
+        let songDetails = self.songsModelArray[indexPath.row]
+        if let imageData = songDetails.imageData {
+            cell.songImage.image = UIImage(data: imageData)
+        }else {
+            cell.songImage.image = UIImage(named: "appBackgroundImage.png")
+        }
+        cell.songTitle.text = songDetails.title
+        cell.songDetails.text = "\(songDetails.albumName) \n \(songDetails.artist)"
+        if indexPath.row == currentSongIndex {
+            spinViewWithAnimation(.beginFromCurrentState, _imageView: cell.songImage)
+            cell.songTitle.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightBold)
+        }else{
+            cell.songTitle.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightRegular)
+        }
+        return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        currentSongIndex = indexPath.row
+        playSongWithIndex(currentSongIndex)
+        updatePlayerControlsUI()
+        tableView.reloadData()
+    }
 }
