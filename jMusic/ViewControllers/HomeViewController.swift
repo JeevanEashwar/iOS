@@ -220,6 +220,14 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
     
     @IBAction func showListButton(_ sender: Any) {
         listTableView.reloadData()
+        guard let button = sender as? UIBarButtonItem else {return}
+        //playbutton
+        let listIcon = UIImage(named: "listIcon")
+        let listIconTintedImage = listIcon?.withRenderingMode(.alwaysTemplate)
+        let gridIcon = UIImage(named: "gridIcon")
+        let gridIconTintedImage = gridIcon?.withRenderingMode(.alwaysTemplate)
+        button.image = listView.isHidden ? gridIconTintedImage:listIconTintedImage
+        button.tintColor = self.playButton.tintColor
         if listView.isHidden {
             listView.isHidden = !listView.isHidden
             UIView.animate(withDuration: 0.33, animations: {
@@ -234,15 +242,6 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
                 self.listView.isHidden = !self.listView.isHidden
             })
         }
-        
-        guard let button = sender as? UIBarButtonItem else {return}
-        //playbutton
-        let listIcon = UIImage(named: "listIcon")
-        let listIconTintedImage = listIcon?.withRenderingMode(.alwaysTemplate)
-        let gridIcon = UIImage(named: "gridIcon")
-        let gridIconTintedImage = gridIcon?.withRenderingMode(.alwaysTemplate)
-        button.image = listView.isHidden ? listIconTintedImage:gridIconTintedImage
-        button.tintColor = self.playButton.tintColor
     }
     @IBAction func playAudioAtSliderValue(_ sender: Any) {
         if audioPlayer?.rate == 0{
