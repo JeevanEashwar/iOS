@@ -99,9 +99,13 @@ class SecondViewController: UIViewController,GIDSignInUIDelegate {
             let rvc = wd.rootViewController
             if(rvc is UITabBarController){
                 for vc in (rvc as! UITabBarController).viewControllers!{
-                    if(vc is HomeViewController){
-                        let controller = vc as! HomeViewController
-                        controller.updateViewTheme(themeStyle: selectedTitle!)
+                    if(vc is UINavigationController){
+                        let navController = vc as! UINavigationController
+                        if navController.topViewController is HomeViewController {
+                            let homeVC = navController.topViewController as! HomeViewController
+                            homeVC.updateViewTheme(themeStyle: selectedTitle!)
+                        }
+                        
                     }
                     else if(vc is RecordingsViewController){
                         let controller = vc as! RecordingsViewController

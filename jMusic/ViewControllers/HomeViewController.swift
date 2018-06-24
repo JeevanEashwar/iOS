@@ -39,6 +39,9 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
     var listShuffle:ListShuffle                     = .noShuffle
     var previousOffset:CGFloat = CGFloat()
     var songsModelArray = [SongsModel]()
+    var albumNamesSet = Array<String>()
+    var artistNamesSet = Array<String>()
+    var listViewTopConstraintMaxValue:CGFloat = 0
     //outlets
      @IBOutlet weak var superViewBackGroundImageView: UIImageView!
     @IBOutlet weak var artistLabel: UILabel!
@@ -60,6 +63,7 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
     @IBOutlet weak var listTableView: UITableView!
     @IBOutlet weak var listTypeSegmentControl: UISegmentedControl!
 
+    @IBOutlet weak var listViewTopConstraint: NSLayoutConstraint!
     
     // MARK: VC Methods
     override func viewDidLoad() {
@@ -101,10 +105,14 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
         NotificationCenter.default.removeObserver(self)
     }
     private func setUpListViewAndItsSubviews(){
+        listViewTopConstraintMaxValue = listView.frame.height
+        listViewTopConstraint.constant = listViewTopConstraintMaxValue
         listView.isHidden = true
         listTableView.delegate = self
         listTableView.dataSource = self
         listTableView.register(UINib(nibName: "SongsListTableViewCell", bundle: nil), forCellReuseIdentifier: "songsListTableViewCell")
+        listTableView.register(UINib(nibName: "AlbumsListTableViewCell", bundle: nil), forCellReuseIdentifier: "albumsListTableViewCell")
+        listTableView.register(UINib(nibName: "ArtistsListTableViewCell", bundle: nil), forCellReuseIdentifier: "artistsListTableViewCell")
     }
     private func setCurrentStateForLoopAndShuffleButtons(){
         songsLoopType = .None
@@ -206,9 +214,35 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
     
    
     // MARK: Outlet Methods
+    @IBAction func listTypeSegmentChanged(_ sender: Any) {
+        listTableView.reloadData()
+    }
+    
     @IBAction func showListButton(_ sender: Any) {
         listTableView.reloadData()
-        listView.isHidden = !listView.isHidden
+        if listView.isHidden {
+            listView.isHidden = !listView.isHidden
+            UIView.animate(withDuration: 0.33, animations: {
+                self.listViewTopConstraint.constant = 0
+                self.view.layoutIfNeeded()
+            })
+        }else{
+            UIView.animate(withDuration: 0.33, animations: {
+                self.listViewTopConstraint.constant = self.listViewTopConstraintMaxValue
+                self.view.layoutIfNeeded()
+            }, completion: {_ in
+                self.listView.isHidden = !self.listView.isHidden
+            })
+        }
+        
+        guard let button = sender as? UIBarButtonItem else {return}
+        //playbutton
+        let listIcon = UIImage(named: "listIcon")
+        let listIconTintedImage = listIcon?.withRenderingMode(.alwaysTemplate)
+        let gridIcon = UIImage(named: "gridIcon")
+        let gridIconTintedImage = gridIcon?.withRenderingMode(.alwaysTemplate)
+        button.image = listView.isHidden ? listIconTintedImage:gridIconTintedImage
+        button.tintColor = self.playButton.tintColor
     }
     @IBAction func playAudioAtSliderValue(_ sender: Any) {
         if audioPlayer?.rate == 0{
@@ -363,12 +397,13 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
         animating = false
     }
     func spinViewWithAnimation(_ options:UIViewAnimationOptions, _imageView:UIImageView){
+        _imageView.transform = .identity
         UIView.animate(withDuration: 0.25, delay: 0.0, options: [], animations: {
             _imageView.transform = _imageView.transform.scaledBy(x: 1.05, y: 1.05)
             
         }, completion:{finished in
             if(finished){
-                _imageView.transform = _imageView.transform.scaledBy(x: 1/1.05, y: 1/1.05)
+                _imageView.transform = .identity
                 if (self.animating) {
                     // if flag still set, keep spinning with constant speed
                     self.spinViewWithAnimation(.beginFromCurrentState, _imageView: _imageView)
@@ -408,6 +443,11 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
         nextTrackButton.tintColor = buttonsTintColor
         shuffleButton.tintColor = buttonsTintColor
         loopingButton.tintColor = buttonsTintColor
+        for barItem in (self.navigationItem.rightBarButtonItems)! {
+            barItem.tintColor = buttonsTintColor
+        }
+        self.navigationController?.navigationBar.barTintColor = vcBGColor
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: buttonsTintColor ?? UIColor.black]
         setUpProgressIndicatorStyle()
         
     }
@@ -603,9 +643,12 @@ class HomeViewController: UIViewController,AVAudioPlayerDelegate{
                 }
             }
             songsModelArray.append(songsModel)
-            listTableView.reloadData()
-//            let songDetailsArray = [songName,artistName,imageData] as [Any]
-//            allSongsDetails[songPath] = songDetailsArray
+            DispatchQueue.main.async {
+                self.listTableView.reloadData()
+            }
+            //make a set of albums and artists
+            albumNamesSet = Array(Set(songsModelArray.map {$0.albumName}))
+            artistNamesSet = Array(Set(songsModelArray.map {$0.artist}))
         }
     }
     func songSelectedFromCollectionView(_ sender: UIButton){
@@ -798,32 +841,96 @@ extension HomeViewController : UITableViewDelegate,UITableViewDataSource {
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.songsModelArray.count
+        if listTypeSegmentControl.selectedSegmentIndex == 0 {
+            return self.songsModelArray.count
+        }else if listTypeSegmentControl.selectedSegmentIndex == 1 {
+            return self.albumNamesSet.count
+        }else if listTypeSegmentControl.selectedSegmentIndex == 2 {
+            return self.artistNamesSet.count
+        }else {
+            return 0
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "songsListTableViewCell", for: indexPath) as! SongsListTableViewCell
-        let songDetails = self.songsModelArray[indexPath.row]
-        if let imageData = songDetails.imageData {
-            cell.songImage.image = UIImage(data: imageData)
+        if listTypeSegmentControl.selectedSegmentIndex == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "songsListTableViewCell", for: indexPath) as! SongsListTableViewCell
+            let songDetails = self.songsModelArray[indexPath.row]
+            if let imageData = songDetails.imageData {
+                cell.songImage.image = UIImage(data: imageData)
+            }else {
+                cell.songImage.image = UIImage(named: "appBackgroundImage.png")
+            }
+            cell.songTitle.text = songDetails.title
+            cell.songDetails.text = "\(songDetails.albumName) \n \(songDetails.artist)"
+            if indexPath.row == currentSongIndex {
+                spinViewWithAnimation(.beginFromCurrentState, _imageView: cell.songImage)
+                cell.songTitle.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightBold)
+            }else{
+                cell.songTitle.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightRegular)
+            }
+            return cell
+        }else if listTypeSegmentControl.selectedSegmentIndex == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "albumsListTableViewCell", for: indexPath) as! AlbumsListTableViewCell
+            let albumName = albumNamesSet[indexPath.row]
+            if let songDetails = songsModelArray.filter({songModel in
+                return songModel.albumName == albumName
+            }).first, let imageData = songDetails.imageData {
+                cell.albumImage.image = UIImage(data: imageData)
+            }
+            cell.albumName.text = albumName
+            return cell
+        }else if listTypeSegmentControl.selectedSegmentIndex == 2 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "artistsListTableViewCell", for: indexPath) as! ArtistsListTableViewCell
+            let artistName = artistNamesSet[indexPath.row]
+            if let songDetails = songsModelArray.filter({songModel in
+                return songModel.artist == artistName
+            }).first, let imageData = songDetails.imageData {
+                cell.artistImage.image = UIImage(data: imageData)
+            }
+            cell.artistName.text = artistName
+            return cell
         }else {
-            cell.songImage.image = UIImage(named: "appBackgroundImage.png")
+            let cell = UITableViewCell()
+            return cell
         }
-        cell.songTitle.text = songDetails.title
-        cell.songDetails.text = "\(songDetails.albumName) \n \(songDetails.artist)"
-        if indexPath.row == currentSongIndex {
-            spinViewWithAnimation(.beginFromCurrentState, _imageView: cell.songImage)
-            cell.songTitle.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightBold)
-        }else{
-            cell.songTitle.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightRegular)
-        }
-        return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        currentSongIndex = indexPath.row
-        playSongWithIndex(currentSongIndex)
-        updatePlayerControlsUI()
-        tableView.reloadData()
+        if listTypeSegmentControl.selectedSegmentIndex == 0 {
+            currentSongIndex = indexPath.row
+            playSongWithIndex(currentSongIndex)
+            updatePlayerControlsUI()
+            tableView.reloadData()
+        }else if listTypeSegmentControl.selectedSegmentIndex == 1 {
+            let vc = AlbumOrArtistDetailViewController()
+            vc.delegate = self
+            vc.songsModelArray = songsModelArray.filter({_songModel in
+                return _songModel.albumName == albumNamesSet[indexPath.row]
+            })
+            vc.title = albumNamesSet[indexPath.row]
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else if listTypeSegmentControl.selectedSegmentIndex == 2 {
+            let vc = AlbumOrArtistDetailViewController()
+            vc.delegate = self
+            vc.songsModelArray = songsModelArray.filter({_songModel in
+                return _songModel.artist == artistNamesSet[indexPath.row]
+            })
+            vc.title = artistNamesSet[indexPath.row]
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
+}
+extension HomeViewController : AlbumArtistSongSelectedDelegate {
+    func albumOrArtistSongSelected(_ songModel: SongsModel) {
+        if let indexOfSong = songsModelArray.firstIndex(where: {_song in
+                return _song == songModel
+            }) {
+            playSongWithIndex(indexOfSong)
+            updatePlayerControlsUI()
+        }
+    }
+    
 }

@@ -8,10 +8,18 @@
 
 import Foundation
 
-class SongsModel{
+class SongsModel: Equatable{
     var urlPath:String = ""
     var title:String = ""
     var artist:String = ""
     var albumName:String = ""
     var imageData:Data? = Data()
+    public static func == (lhs:SongsModel, rhs:SongsModel) -> Bool {
+        return
+            lhs.urlPath == rhs.urlPath &&
+            lhs.title == rhs.title &&
+            lhs.artist == rhs.artist &&
+            lhs.albumName == rhs.albumName &&
+            lhs.imageData == rhs.imageData
+    }
 }

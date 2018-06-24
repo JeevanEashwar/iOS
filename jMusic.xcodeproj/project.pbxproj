@@ -19,6 +19,8 @@
 		09C776A120DF77BF008CF015 /* AlbumsListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09C7769F20DF77BF008CF015 /* AlbumsListTableViewCell.xib */; };
 		09C776A420DF77CE008CF015 /* ArtistsListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C776A220DF77CE008CF015 /* ArtistsListTableViewCell.swift */; };
 		09C776A520DF77CE008CF015 /* ArtistsListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09C776A320DF77CE008CF015 /* ArtistsListTableViewCell.xib */; };
+		09FF35C420DFB63B00BAB991 /* AlbumOrArtistDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FF35C220DFB63B00BAB991 /* AlbumOrArtistDetailViewController.swift */; };
+		09FF35C520DFB63B00BAB991 /* AlbumOrArtistDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09FF35C320DFB63B00BAB991 /* AlbumOrArtistDetailViewController.xib */; };
 		2A80870B1FD0024100F43CEA /* songs.json in Resources */ = {isa = PBXBuildFile; fileRef = 2A80870A1FD0024100F43CEA /* songs.json */; };
 		2AD57D2C1FC7F4E70086C25C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D2B1FC7F4E70086C25C /* Main.storyboard */; };
 		2AD57D2E1FC7F6E10086C25C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2AD57D2D1FC7F6E10086C25C /* GoogleService-Info.plist */; };
@@ -45,6 +47,8 @@
 		09C7769F20DF77BF008CF015 /* AlbumsListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlbumsListTableViewCell.xib; sourceTree = "<group>"; };
 		09C776A220DF77CE008CF015 /* ArtistsListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistsListTableViewCell.swift; sourceTree = "<group>"; };
 		09C776A320DF77CE008CF015 /* ArtistsListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArtistsListTableViewCell.xib; sourceTree = "<group>"; };
+		09FF35C220DFB63B00BAB991 /* AlbumOrArtistDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumOrArtistDetailViewController.swift; sourceTree = "<group>"; };
+		09FF35C320DFB63B00BAB991 /* AlbumOrArtistDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlbumOrArtistDetailViewController.xib; sourceTree = "<group>"; };
 		1EECD0F2B6C87D0F05362FA8 /* Pods-jMusic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-jMusic.debug.xcconfig"; path = "Pods/Target Support Files/Pods-jMusic/Pods-jMusic.debug.xcconfig"; sourceTree = "<group>"; };
 		2A80870A1FD0024100F43CEA /* songs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = songs.json; sourceTree = "<group>"; };
 		2AD57D2B1FC7F4E70086C25C /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -110,6 +114,8 @@
 				0971132A1F2307CD00EB4D86 /* HomeViewController.swift */,
 				0971132C1F2307CD00EB4D86 /* SecondViewController.swift */,
 				84911DCA1FF39C590036C5BD /* RecordingsViewController.swift */,
+				09FF35C220DFB63B00BAB991 /* AlbumOrArtistDetailViewController.swift */,
+				09FF35C320DFB63B00BAB991 /* AlbumOrArtistDetailViewController.xib */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -248,6 +254,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				097113351F2307CD00EB4D86 /* LaunchScreen.storyboard in Resources */,
+				09FF35C520DFB63B00BAB991 /* AlbumOrArtistDetailViewController.xib in Resources */,
 				84C1D93C1FF5138F00D47FC3 /* RecordingCustomTVCell.xib in Resources */,
 				097113321F2307CD00EB4D86 /* Assets.xcassets in Resources */,
 				2A80870B1FD0024100F43CEA /* songs.json in Resources */,
@@ -332,6 +339,7 @@
 				2AD57D341FC805BD0086C25C /* SongInfoCell.swift in Sources */,
 				0971132D1F2307CD00EB4D86 /* SecondViewController.swift in Sources */,
 				84C1D93B1FF5138F00D47FC3 /* RecordingCustomTVCell.swift in Sources */,
+				09FF35C420DFB63B00BAB991 /* AlbumOrArtistDetailViewController.swift in Sources */,
 				097113291F2307CD00EB4D86 /* AppDelegate.swift in Sources */,
 				0971132B1F2307CD00EB4D86 /* HomeViewController.swift in Sources */,
 				84911DCB1FF39C590036C5BD /* RecordingsViewController.swift in Sources */,
