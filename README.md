@@ -7,5 +7,6 @@
 
 ### Steps for hosting songs on localhost
   1. [Set up a local web server](https://discussions.apple.com/docs/DOC-12034)
-  2. Add list.php file to your 'Sites' folder in your mac. (ex: /Users/jeevan/Sites/list.php)
-  3. Edit the [domain](https://github.com/JeevanEashwar/jMusic/blob/GSignIn/jMusic/ViewControllers/HomeViewController.swift#L37) to your local address.
+  2. Add [list.php](https://github.com/JeevanEashwar/jMusic/blob/GSignIn/list.php) file to your 'Sites' folder in your mac. (ex: /Users/jeevan/Sites/list.php)
+  3. Create a folder named 'jMusic' to the same Sites folder & Add mp3 files.
+  4. Change the [domain](https://github.com/JeevanEashwar/jMusic/blob/GSignIn/jMusic/ViewControllers/HomeViewController.swift#L37) constant to your local address.
